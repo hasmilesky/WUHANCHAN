@@ -1,0 +1,14 @@
+// 1. px 轉 rem (基準為 16px)
+@function rem($px) {
+  @return ($px / 16) * 1rem;
+}
+
+// 2. px 轉 vw (假設設計稿寬度是 1440px)
+@function vw($px, $base: 1920) {
+  @return ($px / $base) * 100vw;
+}
+
+// 3. px 轉 % (子層除以父層)
+@function pc($target, $parent) {
+  @return ($target / $parent) * 100%;
+}
