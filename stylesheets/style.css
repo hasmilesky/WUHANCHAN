@@ -5192,7 +5192,16 @@ a {
   transition: all 0.2s ease;
   background-color: #e7e7e7;
   border: 2px solid #ffffff;
+  overflow: hidden;
   cursor: pointer;
+}
+.S_2 .portfolio-grid .portfolio-item .card-anchor .work_card img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: top;
+     object-position: top;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info {
   display: flex;

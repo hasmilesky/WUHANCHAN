@@ -150,6 +150,13 @@ a {
     padding: 2rem 0;
     gap: 10rem;
   }
+  .a_star{
+  &::before {
+    content: "✦ ";     // 在這裡輸入你想要的符號或文字
+    color: orange;      // 可以單獨幫符號設定顏色
+    margin-right: 8px;  // 符號與文字之間的間距
+    }
+    
   .list_item {
     display: inline-block;
     text-decoration: none;
@@ -304,8 +311,14 @@ a {
           transition: all 0.2s ease;
           background-color: #e7e7e7;
           border: 2px solid #ffffff;
-
+          overflow: hidden;
           cursor: pointer;
+          img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover; // 圖片會填滿正方形，多出的部分自動裁掉
+            object-position: top;
+          }
           .work_info {
             display: flex;
             flex-direction: column;
