@@ -1,14 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // --- A. Hamburger Menu ---
-  const hamburger = document.getElementById('hamburger');
-  const navMenu = document.getElementById('nav-menu');
-  if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-      hamburger.classList.toggle('is-active');
-    });
-  }
-
   // --- B. 區塊顯現動畫 (Reveal) ---
   const revealObserver = new IntersectionObserver(
     (entries) => {
@@ -32,20 +22,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const navObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+        // 只要區塊進入視窗比例超過 20% (或視情況調整)
+        if (entry.isIntersecting) {
+          // 先移除所有人的 active
           navLinks.forEach((link) => link.classList.remove('active'));
+
+          // 取得當前區塊 id
           const id = entry.target.getAttribute('id');
+          // 尋找對應的 href
           const activeLink = document.querySelector(`.nav_link[href="#${id}"]`);
-          if (activeLink) activeLink.classList.add('active');
+
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
         }
       });
     },
+
     {
-      rootMargin: '-20% 0px -70% 0px',
+      // 讓偵測範圍更寬一些，例如上方留 30%，下方留 30%
+      rootMargin: '-40% 0px -40% 0px',
+      threshold: [0, 0.1], // 只要稍微進去或出來就觸發偵測
     },
   );
 
   sections.forEach((section) => navObserver.observe(section));
+
+  window.addEventListener('scroll', () => {
+    // 判斷是否滑到底部
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 10
+    ) {
+      navLinks.forEach((link) => link.classList.remove('active'));
+      navLinks[navLinks.length - 1].classList.add('active');
+    }
+  });
 
   // --- D. Portfolio 濾鏡功能 ---
   const filterBtns = document.querySelectorAll('.filter-btn');
@@ -100,4 +112,28 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     },
   });
+});
+
+// navbar 漢堡
+// 確保 DOM 載入後執行
+document.addEventListener('DOMContentLoaded', () => {
+  const menu = document.querySelector('#mobile-menu');
+  const navList = document.querySelector('#nav-list');
+
+  if (menu && navList) {
+    menu.addEventListener('click', function () {
+      // 1. 讓按鈕變叉叉
+      this.classList.toggle('active');
+      // 2. 讓選單掉下來
+      navList.classList.toggle('active');
+    });
+
+    // 點擊連結後自動關閉選單
+    document.querySelectorAll('.nav_link').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('active');
+        navList.classList.remove('active');
+      });
+    });
+  }
 });
