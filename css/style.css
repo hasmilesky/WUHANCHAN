@@ -4923,6 +4923,7 @@ progress {
 .body {
   font-family: "Inter", sans-serif;
   font-size: 18px;
+  min-width: 390px;
   scroll-behavior: smooth; /* 讓點擊導覽列跳轉時，是平滑滾動而不是瞬間跳轉 */
 }
 @media (max-width: 768px) {
@@ -4961,7 +4962,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 10%;
+  padding: 5% 10% 0 10%;
   margin: 0;
   width: 100%;
   background-image: url("../img/f_1.png");
@@ -4976,17 +4977,25 @@ a {
 }
 .KV_1 .me_1 {
   position: relative;
-  max-width: 100%;
+  display: flex;
+  width: 50%;
+  display: block;
   -o-object-fit: contain;
      object-fit: contain;
   z-index: 3;
 }
+.KV_1 .me_1 .me_img {
+  width: 100%;
+}
 .KV_1 .box_all {
   width: 50%;
+  min-width: 390px;
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
+  margin-bottom: 3%;
+  right: 5%;
 }
 .KV_1 .box_all .box_A {
   width: 100%;
@@ -5037,6 +5046,31 @@ a {
   pointer-events: none;
 }
 
+@media (max-width: 768px) {
+  .KV_1 {
+    flex-direction: column;
+    margin-top: 10%;
+    padding: 10% 5%;
+    gap: 0;
+    justify-content: flex-start;
+  }
+  .KV_1 .me_1 {
+    width: 90%;
+    height: auto;
+    transform: none;
+    margin-bottom: 0;
+    bottom: 0;
+  }
+  .KV_1 .box_all {
+    width: 100%;
+    margin-top: 0;
+    right: 0;
+  }
+  .KV_1 .box_all::before {
+    top: 20px;
+    left: 20px;
+  }
+}
 .navbar {
   display: flex;
   align-items: center;
@@ -5086,6 +5120,11 @@ a {
 }
 @media (max-width: 768px) {
   .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* 給導覽列一個固定高度，方便下方內容避開 */
     justify-content: flex-end;
     background-color: rgba(255, 255, 255, 0.95);
   }
@@ -5096,8 +5135,8 @@ a {
   .navbar .navbar_list {
     display: none;
     flex-direction: column;
-    position: absolute;
-    top: 100%;
+    position: fixed; /* 選單展開時也是相對於螢幕 */
+    top: 60px; /* 從導覽列底部開始展開 (等於上面的 height) */
     left: 0;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.95);
@@ -5240,10 +5279,11 @@ a {
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0 5%;
+  padding: 0 1rem;
+  margin-bottom: 3rem;
 }
 .S_2 .filter-buttons .filter-btn {
-  padding: 2% 5%;
+  padding: 1rem 2rem;
   border: 2px solid #ddd;
   border-radius: 10rem;
   background: transparent;
@@ -5365,9 +5405,9 @@ a {
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
-    padding: 2rem 5%;
-    transform: scale(0.85); /* 縮小為原本的 98% */
+    transform: scale(0.7); /* 縮小為原本的 98% */
     transform-origin: center; /* 設定縮放中心點 */
+    margin: 2rem 0;
   }
   .S_2 .filter-buttons .filter-btn {
     border: 2px solid #ddd;
