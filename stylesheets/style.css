@@ -4949,6 +4949,7 @@ h2 {
   font-size: clamp(1.625rem, 3vw, 1.875rem);
   font-weight: 900;
   color: #353535;
+  margin: 0;
 }
 
 p {
@@ -4962,6 +4963,12 @@ p span {
 
 a {
   text-decoration: none;
+}
+
+svg {
+  transform: translateZ(0); /* 強制開啟 GPU 加速 */
+  -webkit-font-smoothing: antialiased; /* 針對文字類圖示有效 */
+  shape-rendering: geometricPrecision;
 }
 
 .KV_1 {
@@ -5017,7 +5024,14 @@ a {
   border: 1px solid #353535;
   z-index: 2;
 }
-.KV_1 .box_all .box_A .H_S {
+.KV_1 .box_all .box_A .h1_1 {
+  opacity: 0;
+  -webkit-animation: fadeInUp 0.8s ease-out forwards;
+          animation: fadeInUp 0.8s ease-out forwards;
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s;
+}
+.KV_1 .box_all .box_A .h1_1 .H_S {
   font-size: clamp(1.75rem, 1vw, 2rem);
   color: #898989;
   font-weight: 300;
@@ -5181,93 +5195,128 @@ a {
 
 .S_1 {
   display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 0 20%;
+  padding: 10rem 20%;
   justify-content: center;
   align-items: center;
   background-color: #ededed;
+  gap: 3rem;
 }
-.S_1 .txtbox {
+.S_1 .box_A {
+  display: flex;
   width: 100%;
-  padding: 0 5%;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+.S_1 .box_A .txt_box {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
-.S_1 .txtbox p {
+.S_1 .box_A .txt_box p {
   text-align: justify;
   line-height: 2;
   letter-spacing: 0.1em;
 }
-.S_1 .txtbox p span {
+.S_1 .box_A .txt_box p span {
   font-weight: bold; /* 標準加粗 */
 }
-.S_1 .i_t {
+.S_1 .box_A .i_t {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
 }
-.S_1 .i_t .txtbox_2 {
+.S_1 .box_A .i_t .txtbox_2 {
   display: flex;
   gap: 1rem;
 }
-.S_1 .i_t .txtbox_2 .name {
+.S_1 .box_A .i_t .txtbox_2 .name {
   color: #434348;
 }
-.S_1 .i_t .txtbox_2 .age {
+.S_1 .box_A .i_t .txtbox_2 .age {
   padding: 0 0.5rem;
   border: 2px solid #434348;
   border-radius: 4rem;
   color: #434348;
 }
+.S_1 .box_B {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 1rem;
+}
+.S_1 .box_B .skill_box {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 80px);
+  gap: 2%;
+}
+.S_1 .box_B .skill_box img {
+  width: 100%;
+  max-width: 100px;
+}
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   .S_1 {
     display: flex;
+    flex-direction: column;
     width: 100%;
     padding: 15% 10%;
     justify-content: center;
     align-items: center;
-    flex-direction: column-reverse;
     background-color: #ededed;
     gap: 1.5rem;
   }
-  .S_1 .txtbox {
-    width: 100%;
-    padding: 0 5%;
+  .S_1 .box_A {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column-reverse;
+    justify-content: center;
     gap: 1.5rem;
   }
-  .S_1 .txtbox p {
+  .S_1 .box_A .txt_box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .S_1 .box_A .txt_box p {
     text-align: justify;
     line-height: 2;
     letter-spacing: 0.1em;
   }
-  .S_1 .txtbox p span {
+  .S_1 .box_A .txt_box p span {
     font-weight: bold; /* 標準加粗 */
   }
-  .S_1 .i_t {
+  .S_1 .box_A .txt_box .i_t {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1.5rem;
   }
-  .S_1 .i_t .txtbox_2 {
+  .S_1 .box_A .txt_box .i_t .txtbox_2 {
     display: flex;
     gap: 1rem;
   }
-  .S_1 .i_t .txtbox_2 .name {
+  .S_1 .box_A .txt_box .i_t .txtbox_2 .name {
     color: #434348;
   }
-  .S_1 .i_t .txtbox_2 .age {
+  .S_1 .box_A .txt_box .i_t .txtbox_2 .age {
     padding: 0 0.5rem;
     border: 2px solid #434348;
     border-radius: 4rem;
     color: #434348;
+  }
+  .S_1 .box_B {
+    display: flex;
+    align-items: center;
+  }
+  .S_1 .box_B .skill_box {
+    display: flex;
+    justify-content: center;
   }
 }
 .S_2 {
@@ -5541,6 +5590,69 @@ a {
     transform: translateY(0);
   }
 }
+.S_logo {
+  display: flex;
+  width: 100%;
+  padding: 2% 0;
+  align-items: center;
+  background-color: #ededed;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.S_logo h2 {
+  margin-bottom: 3rem;
+}
+.S_logo .brand-swiper {
+  width: 100%;
+  padding-left: 20%;
+  overflow: visible;
+  /* 自定義左右按鈕樣式 */
+}
+.S_logo .brand-swiper .brand-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 300px;
+}
+.S_logo .brand-swiper .brand-card .img-box {
+  width: 100%;
+  max-width: 250px;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.S_logo .brand-swiper .brand-card .img-box img {
+  width: 80%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.S_logo .brand-swiper .brand-card p {
+  font-weight: bold;
+  color: #353535;
+  font-size: 1.2rem;
+}
+.S_logo .brand-swiper .swiper-button-prev,
+.S_logo .brand-swiper .swiper-button-next {
+  width: 44px;
+  height: 44px;
+  background-color: #a5b4bc;
+  border-radius: 50%;
+  color: white;
+}
+.S_logo .brand-swiper .swiper-button-prev::after,
+.S_logo .brand-swiper .swiper-button-next::after {
+  font-size: 18px;
+  font-weight: bold;
+}
+.S_logo .brand-swiper .swiper-button-prev:hover,
+.S_logo .brand-swiper .swiper-button-next:hover {
+  background-color: orange;
+}
+
 .S_3 {
   display: flex;
   width: 100%;
@@ -5570,5 +5682,27 @@ footer {
 }
 footer p {
   margin: 0;
+}
+
+@-webkit-keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 /*# sourceMappingURL=style.css.map */

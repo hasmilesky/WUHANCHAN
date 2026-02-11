@@ -40,6 +40,7 @@ h2 {
   font-size: clamp(rem(26), 3vw, rem(30));
   font-weight: 900;
   color: #353535;
+  margin: 0;
 }
 p {
   text-align: justify;
@@ -52,6 +53,12 @@ p {
 a {
   text-decoration: none;
 }
+svg {
+  transform: translateZ(0); /* 強制開啟 GPU 加速 */
+  -webkit-font-smoothing: antialiased; /* 針對文字類圖示有效 */
+  shape-rendering: geometricPrecision;
+}
+
 //main
 
 .KV_1 {
@@ -84,6 +91,7 @@ a {
       width: 100%;
     }
   }
+
   .box_all {
     width: 50%;
     min-width: 390px;
@@ -105,11 +113,18 @@ a {
       backdrop-filter: blur(10px);
       border: 1px solid #353535;
       z-index: 2;
-      .H_S {
-        font-size: clamp(rem(28), 1vw, rem(32));
+      .h1_1 {
+        //動畫
+        opacity: 0; // 先設為透明，等動畫開始
+        animation: fadeInUp 0.8s ease-out forwards;
+        animation-delay: 0.3s; // 延遲一點點再出現，會更有質感
 
-        color: #898989;
-        font-weight: 300;
+        .H_S {
+          font-size: clamp(rem(28), 1vw, rem(32));
+
+          color: #898989;
+          font-weight: 300;
+        }
       }
       .btn_1 {
         display: flex;
@@ -282,68 +297,29 @@ a {
     border-bottom: 2px solid orange;
   }
 }
-
+//自我介紹區塊
 .S_1 {
   display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 0 20%;
+  padding: 10rem 20%;
   justify-content: center;
   align-items: center;
   background-color: #ededed;
-  .txtbox {
-    width: 100%;
-    padding: 0 5%;
-    display: flex;
-    flex-direction: column;
-
-    p {
-      text-align: justify;
-      line-height: 2; // 行距
-      letter-spacing: 0.1em; //字距
-      span {
-        font-weight: bold; /* 標準加粗 */
-      }
-    }
-  }
-  .i_t {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-    .txtbox_2 {
-      display: flex;
-      gap: 1rem;
-      .name {
-        color: #434348;
-      }
-      .age {
-        padding: 0 0.5rem;
-        border: 2px solid #434348;
-        border-radius: 4rem;
-        color: #434348;
-      }
-    }
-  }
-}
-@media (max-width: 768px) {
-  .S_1 {
+  gap: 3rem;
+  .box_A {
     display: flex;
     width: 100%;
-    padding: 15% 10%;
     justify-content: center;
     align-items: center;
-    flex-direction: column-reverse;
-    background-color: #ededed;
-    gap: 1.5rem;
+    gap: 2rem;
 
-    .txtbox {
+    .txt_box {
       width: 100%;
-      padding: 0 5%;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
+      gap: 1rem;
+
       p {
         text-align: justify;
         line-height: 2; // 行距
@@ -371,6 +347,81 @@ a {
           border-radius: 4rem;
           color: #434348;
         }
+      }
+    }
+  }
+  .box_B {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 1rem;
+    .skill_box {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 80px);
+      gap: 2%;
+      img {
+        width: 100%;
+        max-width: 100px;
+      }
+    }
+  }
+}
+@media (max-width: 850px) {
+  .S_1 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 15% 10%;
+    justify-content: center;
+    align-items: center;
+    background-color: #ededed;
+    gap: 1.5rem;
+    .box_A {
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: center;
+      gap: 1.5rem;
+      .txt_box {
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+        p {
+          text-align: justify;
+          line-height: 2; // 行距
+          letter-spacing: 0.1em; //字距
+          span {
+            font-weight: bold; /* 標準加粗 */
+          }
+        }
+        .i_t {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 1.5rem;
+          .txtbox_2 {
+            display: flex;
+            gap: 1rem;
+            .name {
+              color: #434348;
+            }
+            .age {
+              padding: 0 0.5rem;
+              border: 2px solid #434348;
+              border-radius: 4rem;
+              color: #434348;
+            }
+          }
+        }
+      }
+    }
+    .box_B {
+      display: flex;
+      align-items: center;
+      .skill_box {
+        display: flex;
+        justify-content: center;
       }
     }
   }
@@ -415,7 +466,7 @@ a {
     }
   }
 
-  //輪播區塊
+  //分頁區塊
   .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -685,6 +736,75 @@ a {
     transform: translateY(0);
   }
 }
+//品牌輪播區塊
+.S_logo {
+  display: flex;
+  width: 100%;
+  padding: 2% 0; // 關鍵：取消左右 20% 的 padding
+  align-items: center;
+  background-color: #ededed;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden; // 確保超出螢幕的內容不會產生捲軸
+
+  h2 {
+    margin-bottom: 3rem;
+  }
+  .brand-swiper {
+    width: 100%;
+    // 透過 margin-left 讓第一個品牌對齊你原本的內容線（例如 20% 的位置）
+    padding-left: 20%;
+    overflow: visible; // 關鍵：讓右側超出的品牌 3 顯示出來，不要切掉
+    .brand-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      max-width: 300px; // 稍微加大卡片，比較容易產生「超出」感
+
+      .img-box {
+        width: 100%;
+        max-width: 250px;
+        aspect-ratio: 1 / 1;
+        // background-color: #000; // 圖片中的黑塊
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 80%;
+          object-fit: contain;
+        }
+      }
+
+      p {
+        font-weight: bold;
+        color: #353535;
+        font-size: 1.2rem;
+      }
+    }
+
+    /* 自定義左右按鈕樣式 */
+    .swiper-button-prev,
+    .swiper-button-next {
+      width: 44px;
+      height: 44px;
+      background-color: #a5b4bc; // 圖片中的藍灰色
+      border-radius: 50%;
+      color: white;
+
+      &::after {
+        font-size: 18px; // 箭頭大小
+        font-weight: bold;
+      }
+
+      &:hover {
+        background-color: orange; // 跟隨你的主題色
+      }
+    }
+  }
+}
 .S_3 {
   display: flex;
   width: 100%;
@@ -711,5 +831,15 @@ footer {
   gap: 1.5rem;
   p {
     margin: 0;
+  }
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px); // 從下方 30px 開始
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); // 回到原本位置
   }
 }
