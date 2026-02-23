@@ -4965,10 +4965,24 @@ a {
   text-decoration: none;
 }
 
+h3 {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+}
+
 svg {
   transform: translateZ(0); /* 強制開啟 GPU 加速 */
   -webkit-font-smoothing: antialiased; /* 針對文字類圖示有效 */
   shape-rendering: geometricPrecision;
+}
+
+img[src$=".svg"] {
+  /* 觸發 3D 渲染，通常會改善鋸齒 */
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  /* 針對不同瀏覽器的影像平滑設定 */
+  image-rendering: -webkit-optimize-contrast; /* Chrome/Safari */
+  image-rendering: high-quality; /* 部分現代瀏覽器支持 */
 }
 
 .KV_1 {
@@ -5246,18 +5260,88 @@ svg {
 }
 .S_1 .box_B {
   display: flex;
-  width: 100%;
-  flex-direction: column;
   gap: 1rem;
+  width: 100%;
 }
 .S_1 .box_B .skill_box {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1rem;
+  border-right: 1px solid #eee; /* 在右邊加一條細線 */
+}
+.S_1 .box_B .skill_box .img_box {
   display: grid;
   grid-template-columns: repeat(auto-fill, 80px);
   gap: 2%;
 }
-.S_1 .box_B .skill_box img {
+.S_1 .box_B .skill_box .img_box img {
   width: 100%;
   max-width: 100px;
+}
+.S_1 .box_B .contact_box {
+  flex: 1;
+  /* 標題對齊 */
+  /* 列表容器 */
+  /* 單個項目 */
+  /* 圖示圓圈 */
+  /* 文字群組 */
+}
+.S_1 .box_B .contact_box .section-title {
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+.S_1 .box_B .contact_box .contact-list {
+  display: grid;
+  /* 關鍵：設定為兩欄，每欄各佔一半空間 */
+  grid-template-columns: 1fr 1fr;
+  /* 設定行距與列距 */
+  gap: 25px 40px;
+}
+.S_1 .box_B .contact_box .contact-item {
+  display: flex;
+  align-items: center;
+  min-width: 280px; /* 給一個最小寬度防止擠壓 */
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+  position: relative;
+  z-index: 10;
+}
+.S_1 .box_B .contact_box .contact-item:hover {
+  transform: translateX(8px); /* 懸停時輕微右移，增加互動感 */
+}
+.S_1 .box_B .contact_box .icon-circle {
+  width: 45px;
+  height: 45px;
+  background-color: #f4f4f4;
+  border-radius: 12px; /* 圓角矩形，呼應左邊的技能圖示 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  color: #333;
+  transition: background-color 0.3s;
+}
+.S_1 .box_B .contact_box .contact-item:hover .icon-circle {
+  background-color: #000; /* 懸停時變黑 */
+  color: #fff;
+}
+.S_1 .box_B .contact_box .text-group {
+  display: flex;
+  flex-direction: column;
+}
+.S_1 .box_B .contact_box .label {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.S_1 .box_B .contact_box .value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #222;
 }
 
 @media (max-width: 850px) {
@@ -5270,6 +5354,10 @@ svg {
     align-items: center;
     background-color: #ededed;
     gap: 1.5rem;
+  }
+  .S_1 h2 {
+    display: flex;
+    justify-content: center;
   }
   .S_1 .box_A {
     display: flex;
@@ -5312,11 +5400,49 @@ svg {
   }
   .S_1 .box_B {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 2.5rem;
+    width: 100%;
   }
   .S_1 .box_B .skill_box {
     display: flex;
+    width: 100%;
+    gap: 1.5rem;
+  }
+  .S_1 .box_B .skill_box .img_box {
+    display: flex;
     justify-content: center;
+  }
+  .S_1 .box_B .contact_box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+  }
+  .S_1 .box_B .contact_box .contact-item {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  .S_1 .box_B .contact_box .contact-item .icon-circle {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+  .S_1 .box_B .contact_box .contact-item .text-group {
+    margin-left: 12px;
+    text-align: left;
+  }
+  .S_1 .box_B .contact_box .contact-list {
+    display: grid;
+    /* 關鍵：手機版改為 1 欄，避免文字太擠 */
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
   }
 }
 .S_2 {
@@ -5448,7 +5574,7 @@ svg {
   .S_2 {
     display: flex;
     width: 100%;
-    padding: 5% 5%;
+    padding: 15% 7%;
     align-items: center;
     background-color: #d7d7d7;
     flex-direction: column;
@@ -5568,6 +5694,66 @@ svg {
   .S_2 .portfolio-grid .portfolio-item .card-anchor .item-inner img {
     width: 100%;
     transition: all 0.3s ease;
+  }
+}
+/* 燈箱排版 - 電腦版左圖右文 */
+.work-popup {
+  max-width: 900px !important;
+  width: 95% !important;
+  padding: 30px !important;
+  background: #fff;
+  border-radius: 8px;
+}
+.work-popup .popup-title {
+  font-size: 24px;
+  margin-bottom: 25px;
+  font-weight: bold;
+  border-left: 5px solid #333;
+  padding-left: 15px;
+}
+.work-popup .popup-content {
+  display: flex !important;
+  gap: 30px;
+  align-items: flex-start;
+}
+.work-popup .popup-content .popup-img-side {
+  flex: 1.2;
+  max-width: 55%;
+}
+.work-popup .popup-content .popup-img-side img {
+  width: 100% !important;
+  height: auto;
+  border-radius: 4px;
+  display: block;
+}
+.work-popup .popup-content .popup-text-side {
+  flex: 1;
+  text-align: left;
+}
+.work-popup .popup-content .popup-text-side h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+}
+.work-popup .popup-content .popup-text-side p {
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+/* 手機版 RWD：切換為上下堆疊 */
+@media (max-width: 768px) {
+  .work-popup .popup-content {
+    flex-direction: column !important;
+  }
+  .work-popup .popup-content .popup-img-side,
+.work-popup .popup-content .popup-text-side {
+    flex: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .work-popup .popup-content .popup-img-side {
+    margin-bottom: 20px;
   }
 }
 @-webkit-keyframes fadeIn {

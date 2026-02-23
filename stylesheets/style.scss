@@ -53,12 +53,23 @@ p {
 a {
   text-decoration: none;
 }
+h3 {
+  font-size: clamp(rem(18), 2vw, rem(22));
+}
 svg {
   transform: translateZ(0); /* 強制開啟 GPU 加速 */
   -webkit-font-smoothing: antialiased; /* 針對文字類圖示有效 */
   shape-rendering: geometricPrecision;
 }
+img[src$='.svg'] {
+  /* 觸發 3D 渲染，通常會改善鋸齒 */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 
+  /* 針對不同瀏覽器的影像平滑設定 */
+  image-rendering: -webkit-optimize-contrast; /* Chrome/Safari */
+  image-rendering: high-quality; /* 部分現代瀏覽器支持 */
+}
 //main
 
 .KV_1 {
@@ -352,16 +363,94 @@ svg {
   }
   .box_B {
     display: flex;
-    width: 100%;
-    flex-direction: column;
     gap: 1rem;
+    width: 100%;
     .skill_box {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 80px);
-      gap: 2%;
-      img {
-        width: 100%;
-        max-width: 100px;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 1rem;
+      border-right: 1px solid #eee; /* 在右邊加一條細線 */
+      .img_box {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 80px);
+        gap: 2%;
+        img {
+          width: 100%;
+          max-width: 100px;
+        }
+      }
+    }
+    .contact_box {
+      flex: 1;
+      /* 標題對齊 */
+      .section-title {
+        margin-bottom: 25px;
+        letter-spacing: 1px;
+      }
+
+      /* 列表容器 */
+      .contact-list {
+        display: grid;
+        /* 關鍵：設定為兩欄，每欄各佔一半空間 */
+        grid-template-columns: 1fr 1fr;
+        /* 設定行距與列距 */
+        gap: 25px 40px;
+      }
+
+      /* 單個項目 */
+      .contact-item {
+        display: flex;
+        align-items: center;
+        min-width: 280px; /* 給一個最小寬度防止擠壓 */
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.2s ease;
+        position: relative;
+        z-index: 10;
+      }
+
+      .contact-item:hover {
+        transform: translateX(8px); /* 懸停時輕微右移，增加互動感 */
+      }
+
+      /* 圖示圓圈 */
+      .icon-circle {
+        width: 45px;
+        height: 45px;
+        background-color: #f4f4f4;
+        border-radius: 12px; /* 圓角矩形，呼應左邊的技能圖示 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        color: #333;
+        transition: background-color 0.3s;
+      }
+
+      .contact-item:hover .icon-circle {
+        background-color: #000; /* 懸停時變黑 */
+        color: #fff;
+      }
+
+      /* 文字群組 */
+      .text-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .label {
+        font-size: 0.75rem;
+        color: #888;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+
+      .value {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #222;
       }
     }
   }
@@ -376,6 +465,10 @@ svg {
     align-items: center;
     background-color: #ededed;
     gap: 1.5rem;
+    h2 {
+      display: flex;
+      justify-content: center;
+    }
     .box_A {
       display: flex;
       flex-direction: column-reverse;
@@ -418,10 +511,52 @@ svg {
     }
     .box_B {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      gap: 2.5rem;
+      width: 100%; // 確保寬度撐滿
+
       .skill_box {
         display: flex;
+        width: 100%;
+        gap: 1.5rem;
+        .img_box {
+          display: flex;
+          justify-content: center;
+        }
+      }
+      .contact_box {
+        display: flex;
+        flex-direction: column;
         justify-content: center;
+        width: 100%; // 確保寬度撐滿
+
+        .contact-item {
+          background-color: #ffffff; // 加入白色底塊，更有卡片感
+          padding: 1rem;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          width: 100%;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); // 淡淡的陰影增加質感
+
+          .icon-circle {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0; // 防止圖示被擠壓
+          }
+
+          .text-group {
+            margin-left: 12px;
+            text-align: left; // 文字維持靠左較易閱讀
+          }
+        }
+        .contact-list {
+          display: grid;
+          /* 關鍵：手機版改為 1 欄，避免文字太擠 */
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          width: 100%;
+        }
       }
     }
   }
@@ -580,7 +715,8 @@ svg {
   .S_2 {
     display: flex;
     width: 100%;
-    padding: 5% 5%;
+    padding: 15% 7%;
+
     align-items: center;
     background-color: #d7d7d7;
     flex-direction: column;
@@ -726,6 +862,77 @@ svg {
     }
   }
 }
+
+/* 燈箱排版 - 電腦版左圖右文 */
+.work-popup {
+  max-width: 900px !important; // 增加寬度以容納左右排版
+  width: 95% !important;
+  padding: 30px !important;
+  background: #fff;
+  border-radius: 8px;
+
+  .popup-title {
+    font-size: 24px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    border-left: 5px solid #333;
+    padding-left: 15px;
+  }
+
+  .popup-content {
+    display: flex !important; // 開啟彈性佈局
+    gap: 30px; // 圖片與文字的間距
+    align-items: flex-start;
+
+    .popup-img-side {
+      flex: 1.2; // 圖片佔比稍微多一點
+      max-width: 55%;
+
+      img {
+        width: 100% !important; // 讓圖片填滿容器
+        height: auto;
+        border-radius: 4px;
+        display: block;
+      }
+    }
+
+    .popup-text-side {
+      flex: 1; // 文字佔其餘空間
+      text-align: left;
+
+      h4 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #333;
+      }
+      p {
+        line-height: 1.6;
+        color: #666;
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+/* 手機版 RWD：切換為上下堆疊 */
+@media (max-width: 768px) {
+  .work-popup {
+    .popup-content {
+      flex-direction: column !important; // 改為垂直排列
+
+      .popup-img-side,
+      .popup-text-side {
+        flex: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+
+      .popup-img-side {
+        margin-bottom: 20px; // 圖片與文字間的間距
+      }
+    }
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
