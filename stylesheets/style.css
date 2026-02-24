@@ -5448,7 +5448,7 @@ img[src$=".svg"] {
 .S_2 {
   display: flex;
   width: 100%;
-  padding: 5% 20%;
+  padding: 5% 10%;
   align-items: center;
   background-color: #d7d7d7;
   flex-direction: column;
@@ -5461,7 +5461,6 @@ img[src$=".svg"] {
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0 1rem;
   margin-bottom: 3rem;
 }
 .S_2 .filter-buttons .filter-btn {
@@ -5480,45 +5479,29 @@ img[src$=".svg"] {
 }
 .S_2 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
   width: 100%;
+  max-width: 1200px;
   justify-content: center;
 }
 .S_2 .portfolio-grid .portfolio-item {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-  opacity: 1;
-  transform: scale(1) rotateX(0deg);
-  transform-origin: center;
-  max-width: 400px;
-  width: 100%;
-  margin: 0 auto;
 }
-.S_2 .portfolio-grid .portfolio-item.hide, .S_2 .portfolio-grid .portfolio-item.hidden {
-  display: none !important;
-}
-.S_2 .portfolio-grid .portfolio-item.hide {
-  border: 10px solid red;
-}
-.S_2 .portfolio-grid .portfolio-item.animating {
-  opacity: 0;
-  transform: scale(0.5) rotateX(20deg) translateY(20px);
-  filter: blur(5px);
+.S_2 .portfolio-grid .portfolio-item .card-anchor {
+  text-decoration: none;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card {
   display: flex;
   flex-direction: column;
   padding: 5%;
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.2s ease;
   background-color: #e7e7e7;
   border: 2px solid #ffffff;
   overflow: hidden;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card img {
   width: 100%;
@@ -5527,17 +5510,18 @@ img[src$=".svg"] {
      object-fit: cover;
   -o-object-position: top;
      object-position: top;
+  transition: transform 0.3s ease;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   margin-top: 1rem;
   gap: 0.5rem;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info h3 {
   color: #353535;
+  font-size: 1.2rem;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info .tag_A {
   color: #ff9100;
@@ -5561,199 +5545,247 @@ img[src$=".svg"] {
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card:hover h3 {
   color: #898989;
 }
-.S_2 .portfolio-grid .portfolio-item .card-anchor .item-inner {
-  overflow: hidden;
-  border-radius: 8px;
-}
-.S_2 .portfolio-grid .portfolio-item .card-anchor .item-inner img {
+
+/* --- 手寫燈箱核心樣式 (不依賴 Fancybox) --- */
+.custom-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  transition: all 0.3s ease;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.custom-modal-overlay.active {
+  display: flex;
 }
 
-@media (max-width: 768px) {
-  .S_2 {
-    display: flex;
-    width: 100%;
-    padding: 15% 7%;
-    align-items: center;
-    background-color: #d7d7d7;
-    flex-direction: column;
-  }
-  .S_2 h2 {
-    margin: 2rem 1rem 0 0;
-  }
-  .S_2 .filter-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-    transform: scale(0.7); /* 縮小為原本的 98% */
-    transform-origin: center; /* 設定縮放中心點 */
-    margin: 2rem 0;
-  }
-  .S_2 .filter-buttons .filter-btn {
-    border: 2px solid #ddd;
-    border-radius: 10rem;
-    background: transparent;
-    cursor: pointer;
-    font-weight: bold;
-    color: #888;
-    transition: all 0.3s;
-  }
-  .S_2 .filter-buttons .filter-btn.active, .S_2 .filter-buttons .filter-btn:hover {
-    border-color: orange;
-    color: orange;
-  }
-  .S_2 .portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    width: 100%;
-    justify-content: center;
-  }
-  .S_2 .portfolio-grid .portfolio-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    opacity: 1;
-    transform: scale(1) rotateX(0deg);
-    transform-origin: center;
-    max-width: 400px;
-    width: 100%;
-    margin: 0 auto;
-  }
-  .S_2 .portfolio-grid .portfolio-item.hide, .S_2 .portfolio-grid .portfolio-item.hidden {
-    display: none !important;
-  }
-  .S_2 .portfolio-grid .portfolio-item.hide {
-    border: 10px solid red;
-  }
-  .S_2 .portfolio-grid .portfolio-item.animating {
-    opacity: 0;
-    transform: scale(0.5) rotateX(20deg) translateY(20px);
-    filter: blur(5px);
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card {
-    display: flex;
-    flex-direction: column;
-    padding: 5%;
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.2s ease;
-    background-color: #e7e7e7;
-    border: 2px solid #ffffff;
-    overflow: hidden;
-    cursor: pointer;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card img {
-    width: 100%;
-    aspect-ratio: 1/1;
-    -o-object-fit: cover;
-       object-fit: cover;
-    -o-object-position: top;
-       object-position: top;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1rem;
-    gap: 0.5rem;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info h3 {
-    color: #353535;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info .tag_A {
-    color: #ff9100;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info .tag_B {
-    color: #5500ff;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info .tag_C {
-    color: #ff0090;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info .tag_D {
-    color: #00a43f;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card:hover {
-    transform: translateY(-8px);
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card:hover img {
-    transform: scale(1.05);
-    filter: brightness(1.1);
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card:hover h3 {
-    color: #898989;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .item-inner {
-    overflow: hidden;
-    border-radius: 8px;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .item-inner img {
-    width: 100%;
-    transition: all 0.3s ease;
-  }
-}
-/* 燈箱排版 - 電腦版左圖右文 */
-.work-popup {
-  max-width: 900px !important;
-  width: 95% !important;
-  padding: 30px !important;
+.my-custom-lightbox {
+  position: relative;
   background: #fff;
-  border-radius: 8px;
+  width: 95%;
+  max-width: 1100px;
+  height: 85vh;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  /* 左側 Swiper 區塊 */
+  /* 右側文字資訊區 */
 }
-.work-popup .popup-title {
-  font-size: 24px;
-  margin-bottom: 25px;
-  font-weight: bold;
-  border-left: 5px solid #333;
-  padding-left: 15px;
+.my-custom-lightbox .close-btn {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  z-index: 101;
+  background: #353535;
+  color: #fff;
+  border: 2px solid #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: 0.3s;
 }
-.work-popup .popup-content {
-  display: flex !important;
-  gap: 30px;
-  align-items: flex-start;
+.my-custom-lightbox .close-btn:hover {
+  background: #ff9100;
+  transform: rotate(90deg);
 }
-.work-popup .popup-content .popup-img-side {
-  flex: 1.2;
-  max-width: 55%;
+.my-custom-lightbox .lightbox-main {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
-.work-popup .popup-content .popup-img-side img {
-  width: 100% !important;
+@media (max-width: 992px) {
+  .my-custom-lightbox .lightbox-main {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+}
+.my-custom-lightbox .side-left {
+  flex: 1.4;
+  background: #ffffff;
+  position: relative;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  /* --- 點點切換區樣式 --- */
+}
+.my-custom-lightbox .side-left .swiper {
+  width: 100%;
+  height: 100%;
+}
+.my-custom-lightbox .side-left .swiper .swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+.my-custom-lightbox .side-left .swiper .swiper-slide img {
+  /* 這裡最重要：限制圖片不要超過容器 */
+  max-width: 100%;
+  max-height: 70vh;
+  width: auto;
   height: auto;
-  border-radius: 4px;
-  display: block;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
-.work-popup .popup-content .popup-text-side {
+.my-custom-lightbox .side-left .orange-pagination {
+  position: absolute;
+  bottom: 25px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.my-custom-lightbox .side-left .orange-pagination .pill {
+  width: 10px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+.my-custom-lightbox .side-left .orange-pagination .pill.active {
+  background: #ff9100;
+  width: 35px;
+}
+.my-custom-lightbox .side-left .orange-pagination .pill:hover {
+  background: #ff9100;
+  opacity: 0.7;
+}
+.my-custom-lightbox .side-right {
   flex: 1;
-  text-align: left;
+  padding: 60px 40px;
+  background: white;
+  overflow-y: auto;
 }
-.work-popup .popup-content .popup-text-side h4 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  color: #333;
+.my-custom-lightbox .side-right .title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 5px;
+  color: #222;
 }
-.work-popup .popup-content .popup-text-side p {
-  line-height: 1.6;
+.my-custom-lightbox .side-right .cate {
+  color: #ff9100;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 25px;
+}
+.my-custom-lightbox .side-right hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin-bottom: 25px;
+}
+.my-custom-lightbox .side-right .desc {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 30px;
+}
+.my-custom-lightbox .side-right .contribution-box {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed #eee;
+  background: transparent;
+  border-left: none;
+}
+.my-custom-lightbox .side-right .contribution-box small {
+  display: block;
+  color: #bbb;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.my-custom-lightbox .side-right .contribution-box p {
+  margin: 0;
   color: #666;
-  margin-bottom: 15px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
-/* 手機版 RWD：切換為上下堆疊 */
-@media (max-width: 768px) {
-  .work-popup .popup-content {
-    flex-direction: column !important;
+/* --- 燈箱 RWD 整合區塊 --- */
+@media (max-width: 992px) {
+  .my-custom-lightbox {
+    height: 90vh;
+    /* 左側圖片區：固定高度 */
+    /* 右側文字區：取消捲動（因為外層會捲動） */
   }
-  .work-popup .popup-content .popup-img-side,
-.work-popup .popup-content .popup-text-side {
-    flex: none !important;
-    max-width: 100% !important;
-    width: 100% !important;
+  .my-custom-lightbox .lightbox-main {
+    flex-direction: column;
+    overflow-y: auto;
   }
-  .work-popup .popup-content .popup-img-side {
-    margin-bottom: 20px;
+  .my-custom-lightbox .side-left {
+    flex: none;
+    width: 100%;
+    height: 450px;
+    padding: 20px;
+  }
+  .my-custom-lightbox .side-left .swiper .swiper-slide img {
+    max-height: 380px;
+  }
+  .my-custom-lightbox .side-right {
+    flex: none;
+    width: 100%;
+    padding: 40px 30px;
+    overflow-y: visible;
+  }
+  .my-custom-lightbox .side-right .title {
+    font-size: 1.8rem;
+  }
+}
+@media (max-width: 576px) {
+  .custom-modal-overlay {
+    padding: 10px;
+  }
+  .my-custom-lightbox {
+    height: 95vh;
+    border-radius: 16px;
+  }
+  .my-custom-lightbox .close-btn {
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+  }
+  .my-custom-lightbox .side-left {
+    height: 320px;
+  }
+  .my-custom-lightbox .side-left .swiper-slide {
+    padding: 15px;
+  }
+  .my-custom-lightbox .side-left .swiper-slide img {
+    max-height: 260px;
+  }
+  .my-custom-lightbox .side-left .orange-pagination {
+    bottom: 15px;
+  }
+  .my-custom-lightbox .side-right {
+    padding: 25px 20px;
+  }
+  .my-custom-lightbox .side-right .title {
+    font-size: 1.5rem;
+  }
+  .my-custom-lightbox .side-right .desc {
+    font-size: 0.95rem;
+  }
+  .my-custom-lightbox .side-right .contribution-box {
+    padding: 15px;
   }
 }
 @-webkit-keyframes fadeIn {

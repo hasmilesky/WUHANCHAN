@@ -562,26 +562,25 @@ img[src$='.svg'] {
   }
 }
 
-//網頁作品輪播區塊
+// 網頁作品輪播區塊
 .S_2 {
   display: flex;
   width: 100%;
-  padding: 5% 20%;
+  padding: 5% 10%; // 稍微縮減左右 padding，讓網格在平板上有更多空間
   align-items: center;
   background-color: #d7d7d7;
   flex-direction: column;
+
   h2 {
     margin: 3rem 0;
   }
 
-  //按鈕
+  // 1. 濾鏡按鈕區
   .filter-buttons {
     display: flex;
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
-    padding: 0 1rem;
-    // background-color: #c1f48b;
     margin-bottom: 3rem;
 
     .filter-btn {
@@ -601,71 +600,51 @@ img[src$='.svg'] {
     }
   }
 
-  //分頁區塊
+  // 2. 作品網格區
   .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
     width: 100%;
+    max-width: 1200px;
     justify-content: center;
-    // background-color: #144db6;
 
-    //單一卡片
     .portfolio-item {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-      opacity: 1;
-      transform: scale(1) rotateX(0deg);
-      transform-origin: center;
-      max-width: 400px; // 你希望卡片最大的寬度
-      width: 100%; // 確保在小螢幕時能縮小
-      margin: 0 auto; // 當只有一個時，自動水平居中
-      // ------------------
-      // 修正點 1: 使用 & 代表「當前元素本身」
 
-      &.hide,
-      &.hidden {
-        display: none !important;
-      }
-
-      &.hide {
-        border: 10px solid red; // 如果點了按鈕，圖片沒消失但出現紅框，代表 JS 成功，但 CSS 的 display: none 被蓋掉了
-      }
-      &.animating {
-        opacity: 0;
-        transform: scale(0.5) rotateX(20deg) translateY(20px);
-        filter: blur(5px);
-      }
       .card-anchor {
+        text-decoration: none;
+
         .work_card {
           display: flex;
           flex-direction: column;
           padding: 5%;
-          text-decoration: none; // 移除超連結底線
-          color: inherit; // 繼承原本文字顏色
-          transition: all 0.2s ease;
           background-color: #e7e7e7;
           border: 2px solid #ffffff;
           overflow: hidden;
           cursor: pointer;
+          transition: all 0.2s ease;
+
           img {
             width: 100%;
             aspect-ratio: 1 / 1;
-            object-fit: cover; // 圖片會填滿正方形，多出的部分自動裁掉
+            object-fit: cover;
             object-position: top;
+            transition: transform 0.3s ease;
           }
+
           .work_info {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            // background-color: #33af79;
             margin-top: 1rem;
             gap: 0.5rem;
+
             h3 {
               color: #353535;
+              font-size: 1.2rem;
             }
             .tag_A {
               color: #ff9100;
@@ -682,252 +661,288 @@ img[src$='.svg'] {
           }
 
           &:hover {
-            // 1. 卡片整體微微浮起
             transform: translateY(-8px);
-
-            // 2. 圖片稍微放大或變亮（增加細節感）
             img {
               transform: scale(1.05);
               filter: brightness(1.1);
             }
-
-            // 3. 標題變色（呼應你的主題色）
             h3 {
               color: #898989;
             }
           }
         }
-
-        .item-inner {
-          overflow: hidden; // 確保圖片放大時不會超出圓角邊框
-          border-radius: 8px;
-
-          img {
-            width: 100%;
-            transition: all 0.3s ease; // 讓圖片縮放更順滑
-          }
-        }
       }
     }
   }
 }
-@media (max-width: 768px) {
-  .S_2 {
+
+/* --- 手寫燈箱核心樣式 (不依賴 Fancybox) --- */
+
+.custom-modal-overlay {
+  display: none; // 由 JS 切換為 flex
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+
+  &.active {
+    display: flex;
+  }
+}
+
+.my-custom-lightbox {
+  position: relative;
+  background: #fff;
+  width: 95%;
+  max-width: 1100px;
+  height: 85vh;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+  .close-btn {
+    position: absolute;
+    top: -20px; // 往上推
+    right: -20px; // 往右推
+    z-index: 101;
+    background: #353535;
+    color: #fff;
+    border: 2px solid #fff; // 加個白邊讓它在黑底上跳出來
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.3s;
+    &:hover {
+      background: #ff9100;
+      transform: rotate(90deg);
+    }
+  }
+
+  .lightbox-main {
     display: flex;
     width: 100%;
-    padding: 15% 7%;
+    height: 100%;
+    overflow: hidden;
 
-    align-items: center;
-    background-color: #d7d7d7;
-    flex-direction: column;
-    h2 {
-      margin: 2rem 1rem 0 0;
+    @media (max-width: 992px) {
+      flex-direction: column;
+      overflow-y: auto;
     }
+  }
 
-    //按鈕
-    .filter-buttons {
+  /* 左側 Swiper 區塊 */
+  .side-left {
+    flex: 1.4;
+    background: #ffffff;
+    position: relative;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; // 讓左側區塊撐滿燈箱高度
+    position: relative; // 確保點點相對於左側區塊定位
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+
+      .swiper-slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px; // 這是圖片四周的留白，可以控制圖片看起來的大小
+
+        img {
+          /* 這裡最重要：限制圖片不要超過容器 */
+          max-width: 100%; // 寬度自動適應
+          max-height: 70vh; // 高度最高只佔螢幕 70% (這樣才不會把燈箱撐爆)
+          width: auto;
+          height: auto;
+          object-fit: contain; // 保持比例縮放
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+    /* --- 點點切換區樣式 --- */
+    .orange-pagination {
+      position: absolute;
+      bottom: 25px; // 距離底部高度
+      left: 0;
+      right: 0;
+      z-index: 10;
       display: flex;
       justify-content: center;
-      gap: 0.5rem;
-      width: 100%;
-      // background-color: #c1f48b;
-      transform: scale(0.7); /* 縮小為原本的 98% */
-      transform-origin: center; /* 設定縮放中心點 */
-      margin: 2rem 0;
-      .filter-btn {
-        border: 2px solid #ddd;
-        border-radius: 10rem;
-        background: transparent;
+      gap: 8px;
+
+      // 未選中的點點 (JS 裡的 bulletClass)
+      .pill {
+        width: 10px;
+        height: 10px;
+        background: rgba(0, 0, 0, 0.2); // 淡淡的灰色
+        border-radius: 5px;
         cursor: pointer;
-        font-weight: bold;
-        color: #888;
-        transition: all 0.3s;
-        // background-color: #a91010;
-        &.active,
+        transition: all 0.3s ease;
+        display: inline-block;
+
+        // 被選中的狀態 (JS 裡的 bulletActiveClass)
+        &.active {
+          background: #ff9100; // 你的主題橘色
+          width: 35px; // 變長條狀
+        }
+
         &:hover {
-          border-color: orange;
-          color: orange;
-        }
-      }
-    }
-
-    //輪播區塊
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2rem;
-      width: 100%;
-      justify-content: center;
-      // background-color: #144db6;
-
-      //單一卡片
-      .portfolio-item {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        opacity: 1;
-        transform: scale(1) rotateX(0deg);
-        transform-origin: center;
-        max-width: 400px; // 你希望卡片最大的寬度
-        width: 100%; // 確保在小螢幕時能縮小
-        margin: 0 auto; // 當只有一個時，自動水平居中
-        // ------------------
-        // 修正點 1: 使用 & 代表「當前元素本身」
-
-        &.hide,
-        &.hidden {
-          display: none !important;
-        }
-
-        &.hide {
-          border: 10px solid red; // 如果點了按鈕，圖片沒消失但出現紅框，代表 JS 成功，但 CSS 的 display: none 被蓋掉了
-        }
-        &.animating {
-          opacity: 0;
-          transform: scale(0.5) rotateX(20deg) translateY(20px);
-          filter: blur(5px);
-        }
-        .card-anchor {
-          .work_card {
-            display: flex;
-            flex-direction: column;
-            padding: 5%;
-            text-decoration: none; // 移除超連結底線
-            color: inherit; // 繼承原本文字顏色
-            transition: all 0.2s ease;
-            background-color: #e7e7e7;
-            border: 2px solid #ffffff;
-            overflow: hidden;
-            cursor: pointer;
-            img {
-              width: 100%;
-              aspect-ratio: 1 / 1;
-              object-fit: cover; // 圖片會填滿正方形，多出的部分自動裁掉
-              object-position: top;
-            }
-            .work_info {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              // background-color: #33af79;
-              margin-top: 1rem;
-              gap: 0.5rem;
-              h3 {
-                color: #353535;
-              }
-              .tag_A {
-                color: #ff9100;
-              }
-              .tag_B {
-                color: #5500ff;
-              }
-              .tag_C {
-                color: #ff0090;
-              }
-              .tag_D {
-                color: #00a43f;
-              }
-            }
-
-            &:hover {
-              // 1. 卡片整體微微浮起
-              transform: translateY(-8px);
-
-              // 2. 圖片稍微放大或變亮（增加細節感）
-              img {
-                transform: scale(1.05);
-                filter: brightness(1.1);
-              }
-
-              // 3. 標題變色（呼應你的主題色）
-              h3 {
-                color: #898989;
-              }
-            }
-          }
-
-          .item-inner {
-            overflow: hidden; // 確保圖片放大時不會超出圓角邊框
-            border-radius: 8px;
-
-            img {
-              width: 100%;
-              transition: all 0.3s ease; // 讓圖片縮放更順滑
-            }
-          }
+          background: #ff9100;
+          opacity: 0.7;
         }
       }
     }
   }
-}
 
-/* 燈箱排版 - 電腦版左圖右文 */
-.work-popup {
-  max-width: 900px !important; // 增加寬度以容納左右排版
-  width: 95% !important;
-  padding: 30px !important;
-  background: #fff;
-  border-radius: 8px;
+  /* 右側文字資訊區 */
+  .side-right {
+    flex: 1;
+    padding: 60px 40px;
+    background: white;
+    overflow-y: auto;
 
-  .popup-title {
-    font-size: 24px;
-    margin-bottom: 25px;
-    font-weight: bold;
-    border-left: 5px solid #333;
-    padding-left: 15px;
-  }
+    .title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 5px;
+      color: #222;
+    }
+    .cate {
+      color: #ff9100;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 25px;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #eee;
+      margin-bottom: 25px;
+    }
+    .desc {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #555;
+      margin-bottom: 30px;
+    }
+    .contribution-box {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px dashed #eee; // 改成細虛線分隔，更優雅
+      background: transparent; // 去掉淺橘色背景
+      border-left: none; // 去掉左側粗橘線
 
-  .popup-content {
-    display: flex !important; // 開啟彈性佈局
-    gap: 30px; // 圖片與文字的間距
-    align-items: flex-start;
-
-    .popup-img-side {
-      flex: 1.2; // 圖片佔比稍微多一點
-      max-width: 55%;
-
-      img {
-        width: 100% !important; // 讓圖片填滿容器
-        height: auto;
-        border-radius: 4px;
+      small {
         display: block;
+        color: #bbb; // 標籤顏色轉淡，不搶主標題戲
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
       }
-    }
 
-    .popup-text-side {
-      flex: 1; // 文字佔其餘空間
-      text-align: left;
-
-      h4 {
-        margin-top: 0;
-        margin-bottom: 10px;
-        color: #333;
-      }
       p {
+        margin: 0;
+        color: #666; // 文字顏色稍微加深
+        font-size: 1rem;
+        font-weight: 400;
         line-height: 1.6;
-        color: #666;
-        margin-bottom: 15px;
       }
     }
   }
 }
-/* 手機版 RWD：切換為上下堆疊 */
-@media (max-width: 768px) {
-  .work-popup {
-    .popup-content {
-      flex-direction: column !important; // 改為垂直排列
+/* --- 燈箱 RWD 整合區塊 --- */
 
-      .popup-img-side,
-      .popup-text-side {
-        flex: none !important;
-        max-width: 100% !important;
-        width: 100% !important;
+// 斷點 1：平板與筆電 (992px) - 轉為上下排列
+@media (max-width: 992px) {
+  .my-custom-lightbox {
+    height: 90vh; // 高度稍微增加
+
+    .lightbox-main {
+      flex-direction: column; // 核心：左右變上下
+      overflow-y: auto; // 讓整個主體可以捲動
+    }
+
+    /* 左側圖片區：固定高度 */
+    .side-left {
+      flex: none;
+      width: 100%;
+      height: 450px; // 給圖片一個固定高度
+      padding: 20px;
+
+      .swiper {
+        .swiper-slide img {
+          max-height: 380px; // 圖片高度限制
+        }
       }
+    }
 
-      .popup-img-side {
-        margin-bottom: 20px; // 圖片與文字間的間距
+    /* 右側文字區：取消捲動（因為外層會捲動） */
+    .side-right {
+      flex: none;
+      width: 100%;
+      padding: 40px 30px;
+      overflow-y: visible;
+
+      .title {
+        font-size: 1.8rem;
+      } // 標題稍微縮小
+    }
+  }
+}
+
+// 斷點 2：手機 (576px) - 細節優化
+@media (max-width: 576px) {
+  .custom-modal-overlay {
+    padding: 10px; // 減少外層留白
+  }
+
+  .my-custom-lightbox {
+    height: 95vh; // 接近全螢幕
+    border-radius: 16px; // 圓角縮小
+
+    .close-btn {
+      top: 10px;
+      right: 10px;
+      width: 35px;
+      height: 35px;
+    }
+
+    .side-left {
+      height: 320px; // 手機版圖片區再縮小一點
+      .swiper-slide {
+        padding: 15px;
+        img {
+          max-height: 260px;
+        }
+      }
+      .orange-pagination {
+        bottom: 15px;
+      }
+    }
+
+    .side-right {
+      padding: 25px 20px;
+      .title {
+        font-size: 1.5rem;
+      }
+      .desc {
+        font-size: 0.95rem;
+      }
+      .contribution-box {
+        padding: 15px;
       }
     }
   }
