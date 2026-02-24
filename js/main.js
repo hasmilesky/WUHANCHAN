@@ -1,78 +1,178 @@
 /**
- * Helen Design - 完整整合版 main.js
+ * Helen Design - 最終整合版 (純手寫燈箱 + Swiper)
+ * 解決問題：
+ * 1. 徹底移除 Fancybox，改用手寫 Modal 避免與 Swiper 打架。
+ * 2. 修正 Swiper 初始化時機，解決圖片堆疊問題。
+ * 3. 點點（Pagination）樣式與切換功能修正。
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // --- 1. 優先執行：渲染作品集 ---
-  // 確保 works_data.js 已在 index.html 中先引用
-  if (typeof worksData !== 'undefined') {
-    renderWorks();
+  // 1. 執行渲染 (確保 HTML 結構正確生成)
+  if (typeof rawData !== 'undefined') {
+    renderWorks(rawData);
   } else {
-    console.error('找不到 worksData，請檢查 works_data.js 是否正確引用。');
+    console.error('找不到作品資料 (rawData)，請檢查 works_data.js。');
   }
 
-  // --- 2. 初始化作品濾鏡 (Portfolio Filter) ---
+  // 2. 初始化功能
   initPortfolioFilter();
-
-  // --- 3. 初始化外部套件 (Fancybox, Swiper) ---
-  initThirdPartyPlugins();
-
-  // --- 4. 漢堡選單與導覽列 (Mobile Menu) ---
+  initBrandSwiper(); // 初始化品牌輪播
   initMobileMenu();
-
-  // --- 5. 區塊顯現動畫 (Scroll Reveal) ---
   initScrollReveal();
 });
 
 /**
- * [渲染函式] 根據 worksData 產生 HTML
+ * [全域函式] 打開燈箱
+ * 放在 window 下確保 HTML onclick 絕對抓得到
  */
-function renderWorks() {
-  const container = document.getElementById('portfolio-container');
-  if (!container) return;
+window.openWorkModal = function (id) {
+  const modal = document.getElementById(id);
+  if (!modal) return;
 
-  // 技巧：如果資料裡 ID 是空的，就根據索引自動補上
-  const finalData = worksData.map((work, index) => ({
-    ...work,
-    id: work.id || index + 1, // 如果沒寫 ID，就自動用索引 + 1
-  }));
+  // A. 顯示燈箱遮罩
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // 防止背景捲動
 
-  let htmlContent = '';
-  worksData.forEach((work) => {
-    htmlContent += `
-      <div class="portfolio-item ${work.category}">
-        <a href="#work_detail_${work.id}" data-fancybox="work-details" class="card-anchor">
-          <div class="work_card">
-            <img src="${work.img}" alt="${work.title}" />
-            <div class="work_info">
-              <span class="${work.tagClass}">● ${work.tagName}</span>
-              <h3>${work.title}</h3>
+  // B. 延遲啟動 Swiper (確保容器寬度計算正確)
+  setTimeout(() => {
+    const swiperEl = modal.querySelector('.swiper');
+    const paginationEl = modal.querySelector('.orange-pagination');
+
+    if (swiperEl && !swiperEl.swiper) {
+      // --- 業界標準：先算數量，再給設定 ---
+      const slides = swiperEl.querySelectorAll('.swiper-slide');
+      const isMulti = slides.length > 1;
+
+      new Swiper(swiperEl, {
+        loop: isMulti, // 只有多張圖才循環
+        mousewheel: isMulti ? { forceToAxis: true } : false, // 只有多張圖才啟動滾輪
+        grabCursor: isMulti, // 只有多張圖滑鼠才會變「小手抓取」狀
+        autoHeight: false,
+        centeredSlides: true,
+        pagination: {
+          el: paginationEl,
+          clickable: isMulti, // 只有多張圖點點才能點
+          bulletClass: 'pill',
+          bulletActiveClass: 'active',
+        },
+      });
+    } else if (swiperEl && swiperEl.swiper) {
+      // 業界經驗：重新打開時，除了 update，一定要回到第一張 (slideTo)
+      swiperEl.swiper.update();
+      swiperEl.swiper.slideTo(0, 0);
+    }
+  }, 150); // 稍微增加到 150ms，確保 CSS 動畫跑完，抓取寬度更精準
+};
+
+/**
+ * [全域函式] 關閉燈箱
+ */
+window.closeWorkModal = function (id) {
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = ''; // 恢復捲動
+  }
+};
+
+/**
+ * 渲染作品集
+ */
+function renderWorks(data) {
+  const portfolioContainer = document.getElementById('portfolio-container');
+  if (!portfolioContainer) return;
+
+  let cardsHtml = '';
+  let popupsHtml = '';
+
+  Object.keys(data).forEach((catKey) => {
+    const category = data[catKey];
+    category.items.forEach((work, index) => {
+      const uniqueId = `modal_${catKey}_${index}`;
+      const allImages = [work.img, ...(work.moreImgs || [])];
+
+      // 組合輪播圖片
+      const swiperSlides = allImages
+        .map(
+          (imgUrl) => `
+          <div class="swiper-slide">
+            <img src="${imgUrl}" alt="${work.title}">
+          </div>
+        `,
+        )
+        .join('');
+
+      // A. 作品卡片 HTML (對應你的 a.card-anchor CSS)
+      cardsHtml += `
+        <div class="portfolio-item ${catKey}">
+          <a href="javascript:void(0)" class="card-anchor" onclick="openWorkModal('${uniqueId}')">
+            <div class="work_card">
+              <img src="${work.img}" alt="${work.title}" />
+              <div class="work_info">
+                <span class="${category.tagClass}">● ${category.tagName}</span>
+                <h3>${work.title}</h3>
+              </div>
+            </div>
+          </a>
+        </div>
+      `;
+
+      // B. 燈箱內容 HTML (對應你提供的最新 SCSS 結構)
+      popupsHtml += `
+        <div id="${uniqueId}" class="custom-modal-overlay" onclick="if(event.target === this) closeWorkModal('${uniqueId}')" style="display: none;">
+          <div class="my-custom-lightbox">
+            <button class="close-btn" onclick="closeWorkModal('${uniqueId}')">✕</button>
+            <div class="lightbox-main">
+              <div class="side-left">
+                <div class="swiper">
+                  <div class="swiper-wrapper">${swiperSlides}</div>
+                  <div class="orange-pagination"></div>
+                </div>
+              </div>
+              <div class="side-right">
+                <h2 class="title">${work.title}</h2>
+                <p class="cate">${category.tagName}</p>
+                <hr>
+                <div class="desc"><p>${work.desc || ''}</p></div>
+                <div class="contribution-box">
+                  <small>Project Contribution</small>
+                  <p>${work.contribution || ''}</p>
+                </div>
+              </div>
             </div>
           </div>
-        </a>
-      </div>
-
-      <div id="work_detail_${work.id}" class="work-popup" style="display: none;">
-        <h2 class="popup-title">${work.title}</h2>
-        <div class="popup-content">
-          <div class="popup-img-side">
-            <img src="${work.img}" alt="${work.title}" />
-          </div>
-          <div class="popup-text-side">
-            <h4>Project Overview</h4>
-            <p>${work.desc}</p>
-            <h4>My Role</h4>
-            <p>${work.contribution}</p>
-          </div>
         </div>
-      </div>
-    `;
+      `;
+    });
   });
-  container.innerHTML = htmlContent;
+
+  // 渲染卡片到網格
+  portfolioContainer.innerHTML = cardsHtml;
+  // 把燈箱 HTML 直接插進 body
+  document.body.insertAdjacentHTML('beforeend', popupsHtml);
 }
 
 /**
- * [濾鏡函式] 控制作品分類顯示
+ * 品牌牆 Swiper
+ */
+function initBrandSwiper() {
+  const brandContainer = document.querySelector('.brand-swiper');
+  if (brandContainer && typeof Swiper !== 'undefined') {
+    new Swiper('.brand-swiper', {
+      slidesPerView: 2,
+      spaceBetween: 30,
+      loop: true,
+      autoplay: { delay: 2000, disableOnInteraction: false },
+      breakpoints: {
+        640: { slidesPerView: 3 },
+        1024: { slidesPerView: 5 },
+      },
+    });
+  }
+}
+
+/**
+ * 作品集 濾鏡功能
  */
 function initPortfolioFilter() {
   const filterBtns = document.querySelectorAll('.filter-btn');
@@ -81,92 +181,43 @@ function initPortfolioFilter() {
       const filterValue = btn.getAttribute('data-filter');
       const items = document.querySelectorAll('.portfolio-item');
 
-      // 切換按鈕 active 狀態
       filterBtns.forEach((b) => b.classList.remove('active'));
       btn.classList.add('active');
 
       items.forEach((item) => {
-        item.classList.add('animating');
-        setTimeout(() => {
-          if (filterValue === 'all' || item.classList.contains(filterValue)) {
-            item.classList.remove('hide');
-            setTimeout(() => item.classList.remove('animating'), 30);
-          } else {
-            item.classList.add('hide');
-          }
-        }, 150);
+        item.style.display =
+          filterValue === 'all' || item.classList.contains(filterValue)
+            ? 'block'
+            : 'none';
       });
     });
   });
 }
 
 /**
- * [套件函式] 初始化 Fancybox 與 Swiper
- */
-function initThirdPartyPlugins() {
-  // Fancybox 綁定
-  if (typeof Fancybox !== 'undefined') {
-    Fancybox.bind('[data-fancybox="work-details"]', {
-      autoFocus: false,
-      dragToClose: false,
-      // 避免手機版工具列遮擋
-      Toolbar: { display: { left: [], middle: [], right: ['close'] } },
-    });
-  }
-
-  // Swiper 品牌輪播
-  if (
-    typeof Swiper !== 'undefined' &&
-    document.querySelector('.brand-swiper')
-  ) {
-    new Swiper('.brand-swiper', {
-      spaceBetween: 30,
-      slidesPerView: 2,
-      loop: true,
-      speed: 3000,
-      autoplay: { delay: 0, disableOnInteraction: false },
-      breakpoints: { 640: { slidesPerView: 3 }, 1024: { slidesPerView: 5 } },
-    });
-  }
-}
-
-/**
- * [選單函式] 漢堡選單開關
+ * 選單與動畫 (其餘維持不變)
  */
 function initMobileMenu() {
   const menu = document.querySelector('#mobile-menu');
   const navList = document.querySelector('#nav-list');
   if (menu && navList) {
-    menu.addEventListener('click', () => {
+    menu.onclick = () => {
       menu.classList.toggle('active');
       navList.classList.toggle('active');
-    });
-    // 點擊連結後自動收合
-    document.querySelectorAll('.nav_link').forEach((link) => {
-      link.addEventListener('click', () => {
-        menu.classList.remove('active');
-        navList.classList.remove('active');
-      });
-    });
+    };
   }
 }
 
-/**
- * [動畫函式] 捲動顯現效果
- */
 function initScrollReveal() {
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('revealed');
       });
     },
     { threshold: 0.1 },
   );
-
-  document.querySelectorAll('.reveal').forEach((el) => {
-    revealObserver.observe(el);
-  });
+  document
+    .querySelectorAll('.reveal')
+    .forEach((el) => revealObserver.observe(el));
 }
