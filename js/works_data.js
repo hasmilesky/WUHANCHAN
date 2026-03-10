@@ -80,7 +80,7 @@ const rawData = {
         ],
         desc: '南山人壽的官網屬於較老的設計，因為老舊的網站頁面及不夠直覺的UI介面導致使用體驗不佳，一直是他們家投保率低下的原因之一。<br><br>這次有幸參與了這個專案，主要負責優化旅平險的投保流程，從使用者的角度出發，重新設計了投保流程的UI介面，讓使用者能夠更輕鬆地完成投保流程，再以成本有限情況下，提高了投保率和使用者滿意度。',
         contribution: '視覺設計、UX合理化',
-        link: 'https://www.nanshanlife.com.tw/CESIDP/html/SSOIDP/loading.html',
+        link: 'https://www.figma.com/proto/jFocxtZpcDgpnspoW4gbgN/%E5%8D%97%E5%B1%B1%E6%8A%95%E4%BF%9D%E6%B5%81%E7%A8%8B%E5%84%AA%E5%8C%96--Copy-?node-id=771-5414&t=BWqdUrTPtPl5HuIu-1&scaling=min-zoom&content-scaling=fixed&page-id=728%3A2522&starting-point-node-id=771%3A5414&show-proto-sidebar=1',
       },
     ],
   },
