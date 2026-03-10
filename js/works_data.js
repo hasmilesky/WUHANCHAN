@@ -17,8 +17,9 @@ const rawData = {
           'img/work/WEB/mb_1_pa.webp',
           'img/work/WEB/mb_1_KV.webp',
         ],
-        desc: '',
-        contribution: '負責從 Wireframe 繪製、視覺設計。',
+        desc: '肌膚之鑰的新品，24K黃金精華。<br><br>肌膚之鑰在台灣屬於高階品牌，主視覺風格偏向奢華、精緻，因此在設計上需要將國外的主視覺轉化為符合台灣市場的風格，讓消費者能夠接收到產品主打的特色。',
+        contribution:
+          '接收到國外主視覺後，將其轉化為台灣風格，並且延伸製作出網站、素材',
         link: 'https://www.cledepeau-beaute.com.tw/24K黃金精華-A16202_tw.html',
       },
       //肌膚之鑰 激光瓶
@@ -31,8 +32,9 @@ const rawData = {
           'img/work/WEB/2_pa_1.webp',
           'img/work/WEB/2_pa_2.webp',
         ],
-        desc: '這是為了 XX 品牌製作的 RWD 活動頁面，主要目標是提升產品轉單率。',
-        contribution: '負責從 Wireframe 繪製、視覺設計到前端切版實作。',
+        desc: '肌膚之鑰的新品，24K黃金精華。<br><br>肌膚之鑰在台灣屬於高階品牌，主視覺風格偏向奢華、精緻，因此在設計上需要將國外的主視覺轉化為符合台灣市場的風格，讓消費者能夠接收到產品主打的特色。',
+        contribution:
+          '接收到國外主視覺後，將其轉化為台灣風格，並且延伸製作出網站、素材',
         link: 'https://www.cledepeau-beaute.com.tw/精萃光采激光晶露%23激光瓶-A15306_tw.html',
       },
       //碧兒泉 怪獸遊戲
@@ -48,8 +50,8 @@ const rawData = {
           'img/work/WEB/biotherm_game/index-3-2.webp',
           'img/work/WEB/biotherm_game/index-4.webp',
         ],
-        desc: '碧兒泉活動 Banner。',
-        contribution: '排版設計',
+        desc: '第二次製作的網頁性質遊戲。<br><br>這次的遊戲是以碧兒泉的產品為主題，設計了一個怪獸遊戲，玩家需要透過操作角色來擊敗怪獸，並且在遊戲中了解產品的特點和功效。',
+        contribution: '視覺呈現、UX合理化。',
         link: 'https://www.biotherm.com.tw/bio-campaign/special-event-8',
       },
       //車主指南
@@ -64,8 +66,8 @@ const rawData = {
           'img/work/WEB/toyota/04/4-1_04.webp',
           'img/work/WEB/toyota/04/4-3_04.webp',
         ],
-        desc: '碧兒泉活動 Banner。',
-        contribution: '排版設計',
+        desc: '屬於和泰車主專用的，新手汽車駕駛的使用指南。<br><br>這個網站的目的是為了幫助新手駕駛更好地了解汽車的使用方法和注意事項，從而提高他們的駕駛安全性和舒適度。<br><br>網站內容涵蓋了汽車的基本操作、維護保養、安全駕駛等方面，並且提供了豐富的圖文說明和互動功能，讓使用者能夠更輕鬆地學習和掌握相關知識。',
+        contribution: 'Wireframe、視覺設計、UX合理化。',
         link: 'https://www.toyota.com.tw/Guidebook/',
       },
       //南山人壽 旅平險投保流程優化
@@ -76,8 +78,8 @@ const rawData = {
           'img/work/WEB/NanSan/正向流程 PC_2023/step1_投保方案.webp',
           'img/work/WEB/NanSan/負向流程 PC_2023/step1_投保方案.webp',
         ],
-        desc: '南山人壽 旅平險投保流程優化。',
-        contribution: '排版設計',
+        desc: '南山人壽的官網屬於較老的設計，因為老舊的網站頁面及不夠直覺的UI介面導致使用體驗不佳，一直是他們家投保率低下的原因之一。<br><br>這次有幸參與了這個專案，主要負責優化旅平險的投保流程，從使用者的角度出發，重新設計了投保流程的UI介面，讓使用者能夠更輕鬆地完成投保流程，再以成本有限情況下，提高了投保率和使用者滿意度。',
+        contribution: '視覺設計、UX合理化',
         link: 'https://www.nanshanlife.com.tw/CESIDP/html/SSOIDP/loading.html',
       },
     ],
@@ -97,8 +99,6 @@ const rawData = {
           'img/work/landing_page/05/nivea_05.webp',
           'img/work/landing_page/05/nivea_06.webp',
         ],
-        desc: '妮維雅 美白潤膚乳液 LANDING PAGE 設計。',
-        contribution: 'Landing Page 設計',
       },
       {
         title: '妮維雅 男士體香爽身噴霧',
@@ -113,8 +113,6 @@ const rawData = {
           'img/work/landing_page/02/1000xh_PDP_P6.webp',
           'img/work/landing_page/02/1000xh_PDP_P7.webp',
         ],
-        desc: '妮維雅 男士體香爽身噴霧 LANDING PAGE 設計。',
-        contribution: 'Landing Page 設計',
       },
       {
         title: '妮維雅 超能科技止汗',
@@ -130,8 +128,6 @@ const rawData = {
           'img/work/landing_page/03/woman_07.webp',
           'img/work/landing_page/03/woman_08.webp',
         ],
-        desc: '妮維雅 超能科技止汗 LANDING PAGE 設計。',
-        contribution: 'Landing Page 設計',
       },
       {
         title: '妮維雅 專業級身體防曬',
@@ -146,8 +142,6 @@ const rawData = {
           'img/work/landing_page/01/06.webp',
           'img/work/landing_page/01/07.webp',
         ],
-        desc: '妮維雅 專業級身體防曬 LANDING PAGE 設計。',
-        contribution: 'Landing Page 設計',
       },
       {
         title: '舒適牌 我的思享沙龍',
@@ -162,8 +156,6 @@ const rawData = {
           'img/work/landing_page/04/schick_06.webp',
           'img/work/landing_page/04/schick_07.webp',
         ],
-        desc: '舒適牌 我的思享沙龍 LANDING PAGE 設計。',
-        contribution: 'Landing Page 設計',
       },
     ],
   },
@@ -174,9 +166,7 @@ const rawData = {
       {
         title: 'NIVEA L630',
         img: 'img/work/BANNER/02/妮維雅_KV優化圖.webp',
-        moreImgs: [],
-        desc: '妮維雅產品廣告 Banner 設計。',
-        contribution: '視覺合成',
+        contribution: '視覺排版',
       },
       {
         title: 'ELEMIS 玫瑰霜',
@@ -185,18 +175,12 @@ const rawData = {
           'img/work/BANNER/elemis.webp',
           'img/work/BANNER/elemis_2.webp',
         ],
-        desc: 'ELEMIS 產品廣告設計。',
-        contribution: '視覺合成',
+        contribution: '視覺設計',
       },
 
       {
         title: 'TOYOTA Supra',
         img: 'img/work/BANNER/TOYOTA_1080x1080.webp',
-        moreImgs: [
-          'img/work/WEB/1.webp',
-          'img/work/BANNER/和泰11SP_jolin_web.webp',
-        ],
-        desc: 'TOYOTA 跑車系列社群圖。',
         contribution: '視覺設計',
       },
       // {
@@ -208,20 +192,12 @@ const rawData = {
       {
         title: '肌膚之鑰 4D精華',
         img: 'img/work/BANNER/cpb_1040x1040.webp',
-        moreImgs: [
-          'img/work/WEB/1.webp',
-          'img/work/BANNER/和泰11SP_jolin_web.webp',
-        ],
-        desc: '產品推廣 Banner。',
         contribution: '排版設計',
       },
       {
         title: 'LeapUp LINE',
         img: 'img/work/BANNER/廣告_1200x1200.webp',
-        moreImgs: [
-          'img/work/WEB/1.webp',
-          'img/work/BANNER/和泰11SP_jolin_web.webp',
-        ],
+
         desc: 'LINE 廣告版位設計。',
         contribution: '廣告排版',
       },
@@ -229,11 +205,6 @@ const rawData = {
       {
         title: 'TOYOTA 中秋賀卡',
         img: 'img/work/BANNER/toyota_moon.webp',
-        moreImgs: [
-          'img/work/WEB/1.webp',
-          'img/work/BANNER/和泰11SP_jolin_web.webp',
-        ],
-        desc: '節慶賀卡插畫排版。',
         contribution: '插畫排版',
       },
       {
@@ -269,11 +240,6 @@ const rawData = {
       {
         title: 'skinceuticals 三折 DM',
         img: 'img/work/PRINT/SKC_三折DM.webp',
-        moreImgs: [
-          'img/work/WEB/1.webp',
-          'img/work/BANNER/和泰11SP_jolin_web.webp',
-        ],
-        desc: '專案詳細說明文字',
         contribution: '印刷排版',
       },
       //妮維雅 防曬外包裝
@@ -285,13 +251,12 @@ const rawData = {
           'img/work/PRINT/妮維雅_防曬外包裝-4.webp',
           'img/work/PRINT/妮維雅_防曬外包裝-2.webp',
         ],
-
-        desc: '專案詳細說明文字',
+        desc: '妮維雅包裝更新設計。',
         contribution: '印刷排版',
       },
       //南山人壽 年曆
       {
-        title: '南山人壽 年曆',
+        title: '南山人壽 限量年曆',
         img: 'img/work/PRINT/NanSan/日曆.webp',
         moreImgs: [
           'img/work/PRINT/NanSan/1_封面.webp',
@@ -309,8 +274,8 @@ const rawData = {
           'img/work/PRINT/NanSan/14_開會中.webp',
         ],
 
-        desc: '專案詳細說明文字',
-        contribution: '印刷排版',
+        desc: '製作的非常快樂的一個案子。<br><br>這波年曆主打南山人壽的各種保險產品，並且以可愛的插畫風格呈現。<br><br>在設計上，我們需要將每個月的主題和產品特色結合起來，創造出有趣又實用的年曆內容，讓使用者在使用年曆的同時，也能夠對南山人壽的產品有更深入的了解。',
+        contribution: '插圖繪製、圖文設計',
       },
     ],
   },
@@ -322,28 +287,18 @@ const rawData = {
         title: '明信片',
         img: 'img/work/ART/明信片.webp',
         moreImgs: ['img/work/ART/明信片_ai.mp4'],
-        desc: '個人創作明信片。',
         contribution: '手繪插畫',
       },
       {
-        title: '偶像禮物盒',
+        title: '偶像禮物',
         img: 'img/work/ART/偶像禮物盒.webp',
-        moreImgs: [
-          'img/work/WEB/1.webp',
-          'img/work/BANNER/和泰11SP_jolin_web.webp',
-        ],
-        desc: '手工禮物盒包裝設計。',
-        contribution: '結構設計與排版',
+        contribution: '手繪插畫',
       },
       {
         title: '遊戲角色',
         img: 'img/work/ART/遊戲角色.webp',
-        moreImgs: [
-          'img/work/WEB/1.webp',
-          'img/work/BANNER/和泰11SP_jolin_web.webp',
-        ],
         desc: '2D 遊戲角色設定。',
-        contribution: '角色原畫',
+        contribution: '遊戲角色二創',
       },
     ],
   },
