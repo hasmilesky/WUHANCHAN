@@ -365,6 +365,10 @@ img[src$='.svg'] {
     display: flex;
     gap: 1rem;
     width: 100%;
+    @media (max-width: 1400px) {
+      flex-direction: column;
+      gap: 3rem;
+    }
     .skill_box {
       display: flex;
       flex: 1;
@@ -582,7 +586,9 @@ img[src$='.svg'] {
     gap: 0.5rem;
     width: 100%;
     margin-bottom: 3rem;
-
+    @media (max-width: 992px) {
+      flex-direction: column;
+    }
     .filter-btn {
       padding: 1rem 2rem;
       border: 2px solid #ddd;
@@ -592,6 +598,7 @@ img[src$='.svg'] {
       font-weight: bold;
       color: #888;
       transition: all 0.3s;
+
       &.active,
       &:hover {
         border-color: orange;
@@ -812,6 +819,8 @@ img[src$='.svg'] {
     padding: 60px 40px;
     background: white;
     overflow-y: auto;
+    position: relative;
+    padding-bottom: 80px;
 
     .title {
       font-size: 2.2rem;
@@ -861,6 +870,27 @@ img[src$='.svg'] {
         line-height: 1.6;
       }
     }
+    .visit-site-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #000000; /* 你的橘色系 */
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .visit-site-btn:hover {
+      background-color: #e66000;
+    }
+
+    .link-container {
+      position: absolute;
+      right: 40px; /* 與 side-right 的 padding 一致 */
+      bottom: 40px; /* 距離底部的高度 */
+    }
   }
 }
 /* --- 燈箱 RWD 整合區塊 --- */
@@ -879,7 +909,7 @@ img[src$='.svg'] {
     .side-left {
       flex: none;
       width: 100%;
-      height: 450px; // 給圖片一個固定高度
+      height: 70%; // 給圖片一個固定高度
       padding: 20px;
 
       .swiper {

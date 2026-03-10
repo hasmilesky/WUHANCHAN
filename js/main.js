@@ -49,6 +49,10 @@ window.openWorkModal = function (id) {
         grabCursor: isMulti, // 只有多張圖滑鼠才會變「小手抓取」狀
         autoHeight: false,
         centeredSlides: true,
+        threshold: 20, // 手指至少要滑動 20px 才會觸發切換，避免微小誤觸
+        touchMoveStopPropagation: true, // 防止滑動事件干擾到其他元件
+        shortSwipes: true, // 確保短距離快速滑動也能正常切換一格
+        longSwipesRatio: 0.3, // 滑動超過 30% 寬度才翻頁，增加穩定性
         pagination: {
           el: paginationEl,
           clickable: isMulti, // 只有多張圖點點才能點
@@ -91,18 +95,31 @@ function renderWorks(data) {
       const uniqueId = `modal_${catKey}_${index}`;
       const allImages = [work.img, ...(work.moreImgs || [])];
 
-      // 組合輪播圖片
+      // 1. 判斷是否有外部連結按鈕
+      // 如果 work.link 有值，就產生按鈕 HTML，否則為空字串
+      const externalLinkBtn = work.link
+        ? `<a href="${work.link}" target="_blank" class="visit-site-btn">造訪網站 ↗</a>`
+        : '';
+
+      // 組合輪播圖片 (自動判斷影片或圖片)
       const swiperSlides = allImages
-        .map(
-          (imgUrl) => `
-          <div class="swiper-slide">
-            <img src="${imgUrl}" alt="${work.title}">
-          </div>
-        `,
-        )
+        .map((fileUrl) => {
+          const isVideo = /\.(mp4|webm|ogg)$/i.test(fileUrl);
+          if (isVideo) {
+            return `
+              <div class="swiper-slide">
+                <video src="${fileUrl}" muted loop playsinline autoplay style="width:100%; height:100%; object-fit:contain; display:block;"></video>
+              </div>`;
+          } else {
+            return `
+              <div class="swiper-slide">
+                <img src="${fileUrl}" alt="${work.title}" style="height:100%; object-fit:contain;">
+              </div>`;
+          }
+        })
         .join('');
 
-      // A. 作品卡片 HTML (對應你的 a.card-anchor CSS)
+      // A. 作品卡片 HTML
       cardsHtml += `
         <div class="portfolio-item ${catKey}">
           <a href="javascript:void(0)" class="card-anchor" onclick="openWorkModal('${uniqueId}')">
@@ -117,7 +134,7 @@ function renderWorks(data) {
         </div>
       `;
 
-      // B. 燈箱內容 HTML (對應你提供的最新 SCSS 結構)
+      // B. 燈箱內容 HTML (在 side-right 加入了 externalLinkBtn)
       popupsHtml += `
         <div id="${uniqueId}" class="custom-modal-overlay" onclick="if(event.target === this) closeWorkModal('${uniqueId}')" style="display: none;">
           <div class="my-custom-lightbox">
@@ -138,6 +155,9 @@ function renderWorks(data) {
                   <small>Project Contribution</small>
                   <p>${work.contribution || ''}</p>
                 </div>
+                <div class="link-container">
+                  ${externalLinkBtn}
+                </div>
               </div>
             </div>
           </div>
@@ -146,9 +166,7 @@ function renderWorks(data) {
     });
   });
 
-  // 渲染卡片到網格
   portfolioContainer.innerHTML = cardsHtml;
-  // 把燈箱 HTML 直接插進 body
   document.body.insertAdjacentHTML('beforeend', popupsHtml);
 }
 

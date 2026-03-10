@@ -4924,13 +4924,15 @@ progress {
   font-family: "Inter", sans-serif;
   font-size: 18px;
   min-width: 390px;
-  scroll-behavior: smooth; /* 讓點擊導覽列跳轉時，是平滑滾動而不是瞬間跳轉 */
 }
 @media (max-width: 768px) {
   .body {
     font-size: 14px;
     min-width: 390px;
   }
+}
+.body {
+  scroll-behavior: smooth; /* 讓點擊導覽列跳轉時，是平滑滾動而不是瞬間跳轉 */
 }
 
 section {
@@ -4959,10 +4961,23 @@ a {
   text-decoration: none;
 }
 
+h3 {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+}
+
 svg {
   transform: translateZ(0); /* 強制開啟 GPU 加速 */
   -webkit-font-smoothing: antialiased; /* 針對文字類圖示有效 */
   shape-rendering: geometricPrecision;
+}
+
+img[src$=".svg"] {
+  /* 觸發 3D 渲染，通常會改善鋸齒 */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* 針對不同瀏覽器的影像平滑設定 */
+  image-rendering: -webkit-optimize-contrast; /* Chrome/Safari */
+  image-rendering: high-quality; /* 部分現代瀏覽器支持 */
 }
 
 .KV_1 {
@@ -5013,8 +5028,7 @@ svg {
   flex-direction: column;
   gap: 1rem;
   background-color: rgba(255, 255, 255, 0.44);
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border: 1px solid #353535;
   z-index: 2;
 }
@@ -5052,8 +5066,7 @@ svg {
   top: 30px;
   left: 30px;
   background-color: rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(8px);
-          backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   border: 1px solid #353535;
   pointer-events: none;
 }
@@ -5089,23 +5102,19 @@ svg {
   justify-content: center;
   margin: 0;
   background-color: rgba(255, 255, 255, 0.3);
-  -webkit-backdrop-filter: blur(2px);
-          backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   position: sticky;
   top: 0; /* 碰到頂端 0 的位置時固定 */
   z-index: 100;
   /* 垂直置中 */
   align-items: center;
   /* 漢堡按鈕樣式 (預設隱藏) */
-  /* 手機版樣式 (假設 768px 以下觸發) */
-  /* 當前所在的區塊連結變色 */
 }
 .navbar .menu-toggle {
   display: none;
   flex-direction: column;
   cursor: pointer;
   z-index: 101;
-  /* 當按鈕被點擊 (active) 時的變化 */
 }
 .navbar .menu-toggle .bar {
   width: 25px;
@@ -5113,6 +5122,9 @@ svg {
   background-color: #434348;
   margin: 4px 0;
   transition: all 0.3s ease-in-out;
+}
+.navbar .menu-toggle {
+  /* 當按鈕被點擊 (active) 時的變化 */
 }
 .navbar .menu-toggle.active .bar:nth-child(1) {
   transform: translateY(11px) rotate(45deg);
@@ -5129,6 +5141,9 @@ svg {
   margin: 0;
   padding: 2rem 0;
   gap: 10rem;
+}
+.navbar {
+  /* 手機版樣式 (假設 768px 以下觸發) */
 }
 @media (max-width: 768px) {
   .navbar {
@@ -5177,6 +5192,9 @@ svg {
 }
 .navbar .nav_link {
   transition: color 0.3s;
+}
+.navbar {
+  /* 當前所在的區塊連結變色 */
 }
 .navbar .nav_link.active {
   color: orange; /* 你想要的顏色 */
@@ -5237,18 +5255,102 @@ svg {
 }
 .S_1 .box_B {
   display: flex;
-  width: 100%;
-  flex-direction: column;
   gap: 1rem;
+  width: 100%;
+}
+@media (max-width: 1400px) {
+  .S_1 .box_B {
+    flex-direction: column;
+    gap: 3rem;
+  }
 }
 .S_1 .box_B .skill_box {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1rem;
+  border-right: 1px solid #eee; /* 在右邊加一條細線 */
+}
+.S_1 .box_B .skill_box .img_box {
   display: grid;
   grid-template-columns: repeat(auto-fill, 80px);
   gap: 2%;
 }
-.S_1 .box_B .skill_box img {
+.S_1 .box_B .skill_box .img_box img {
   width: 100%;
   max-width: 100px;
+}
+.S_1 .box_B .contact_box {
+  flex: 1;
+  /* 標題對齊 */
+}
+.S_1 .box_B .contact_box .section-title {
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+.S_1 .box_B .contact_box {
+  /* 列表容器 */
+}
+.S_1 .box_B .contact_box .contact-list {
+  display: grid;
+  /* 關鍵：設定為兩欄，每欄各佔一半空間 */
+  grid-template-columns: 1fr 1fr;
+  /* 設定行距與列距 */
+  gap: 25px 40px;
+}
+.S_1 .box_B .contact_box {
+  /* 單個項目 */
+}
+.S_1 .box_B .contact_box .contact-item {
+  display: flex;
+  align-items: center;
+  min-width: 280px; /* 給一個最小寬度防止擠壓 */
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+  position: relative;
+  z-index: 10;
+}
+.S_1 .box_B .contact_box .contact-item:hover {
+  transform: translateX(8px); /* 懸停時輕微右移，增加互動感 */
+}
+.S_1 .box_B .contact_box {
+  /* 圖示圓圈 */
+}
+.S_1 .box_B .contact_box .icon-circle {
+  width: 45px;
+  height: 45px;
+  background-color: #f4f4f4;
+  border-radius: 12px; /* 圓角矩形，呼應左邊的技能圖示 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  color: #333;
+  transition: background-color 0.3s;
+}
+.S_1 .box_B .contact_box .contact-item:hover .icon-circle {
+  background-color: #000; /* 懸停時變黑 */
+  color: #fff;
+}
+.S_1 .box_B .contact_box {
+  /* 文字群組 */
+}
+.S_1 .box_B .contact_box .text-group {
+  display: flex;
+  flex-direction: column;
+}
+.S_1 .box_B .contact_box .label {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.S_1 .box_B .contact_box .value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #222;
 }
 
 @media (max-width: 850px) {
@@ -5261,6 +5363,10 @@ svg {
     align-items: center;
     background-color: #ededed;
     gap: 1.5rem;
+  }
+  .S_1 h2 {
+    display: flex;
+    justify-content: center;
   }
   .S_1 .box_A {
     display: flex;
@@ -5303,17 +5409,55 @@ svg {
   }
   .S_1 .box_B {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 2.5rem;
+    width: 100%;
   }
   .S_1 .box_B .skill_box {
     display: flex;
+    width: 100%;
+    gap: 1.5rem;
+  }
+  .S_1 .box_B .skill_box .img_box {
+    display: flex;
     justify-content: center;
+  }
+  .S_1 .box_B .contact_box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+  }
+  .S_1 .box_B .contact_box .contact-item {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  .S_1 .box_B .contact_box .contact-item .icon-circle {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+  .S_1 .box_B .contact_box .contact-item .text-group {
+    margin-left: 12px;
+    text-align: left;
+  }
+  .S_1 .box_B .contact_box .contact-list {
+    display: grid;
+    /* 關鍵：手機版改為 1 欄，避免文字太擠 */
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
   }
 }
 .S_2 {
   display: flex;
   width: 100%;
-  padding: 5% 20%;
+  padding: 5% 10%;
   align-items: center;
   background-color: #d7d7d7;
   flex-direction: column;
@@ -5326,8 +5470,12 @@ svg {
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0 1rem;
   margin-bottom: 3rem;
+}
+@media (max-width: 992px) {
+  .S_2 .filter-buttons {
+    flex-direction: column;
+  }
 }
 .S_2 .filter-buttons .filter-btn {
   padding: 1rem 2rem;
@@ -5345,45 +5493,29 @@ svg {
 }
 .S_2 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
   width: 100%;
+  max-width: 1200px;
   justify-content: center;
 }
 .S_2 .portfolio-grid .portfolio-item {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-  opacity: 1;
-  transform: scale(1) rotateX(0deg);
-  transform-origin: center;
-  max-width: 400px;
-  width: 100%;
-  margin: 0 auto;
 }
-.S_2 .portfolio-grid .portfolio-item.hide, .S_2 .portfolio-grid .portfolio-item.hidden {
-  display: none !important;
-}
-.S_2 .portfolio-grid .portfolio-item.hide {
-  border: 10px solid red;
-}
-.S_2 .portfolio-grid .portfolio-item.animating {
-  opacity: 0;
-  transform: scale(0.5) rotateX(20deg) translateY(20px);
-  filter: blur(5px);
+.S_2 .portfolio-grid .portfolio-item .card-anchor {
+  text-decoration: none;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card {
   display: flex;
   flex-direction: column;
   padding: 5%;
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.2s ease;
   background-color: #e7e7e7;
   border: 2px solid #ffffff;
   overflow: hidden;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card img {
   width: 100%;
@@ -5392,17 +5524,18 @@ svg {
      object-fit: cover;
   -o-object-position: top;
      object-position: top;
+  transition: transform 0.3s ease;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   margin-top: 1rem;
   gap: 0.5rem;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info h3 {
   color: #353535;
+  font-size: 1.2rem;
 }
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info .tag_A {
   color: #ff9100;
@@ -5426,139 +5559,278 @@ svg {
 .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card:hover h3 {
   color: #898989;
 }
-.S_2 .portfolio-grid .portfolio-item .card-anchor .item-inner {
-  overflow: hidden;
-  border-radius: 8px;
-}
-.S_2 .portfolio-grid .portfolio-item .card-anchor .item-inner img {
+
+/* --- 手寫燈箱核心樣式 (不依賴 Fancybox) --- */
+.custom-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  transition: all 0.3s ease;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.custom-modal-overlay.active {
+  display: flex;
 }
 
-@media (max-width: 768px) {
-  .S_2 {
-    display: flex;
-    width: 100%;
-    padding: 5% 5%;
-    align-items: center;
-    background-color: #d7d7d7;
+.my-custom-lightbox {
+  position: relative;
+  background: #fff;
+  width: 95%;
+  max-width: 1100px;
+  height: 85vh;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.my-custom-lightbox .close-btn {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  z-index: 101;
+  background: #353535;
+  color: #fff;
+  border: 2px solid #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: 0.3s;
+}
+.my-custom-lightbox .close-btn:hover {
+  background: #ff9100;
+  transform: rotate(90deg);
+}
+.my-custom-lightbox .lightbox-main {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+@media (max-width: 992px) {
+  .my-custom-lightbox .lightbox-main {
     flex-direction: column;
+    overflow-y: auto;
   }
-  .S_2 h2 {
-    margin: 2rem 1rem 0 0;
+}
+.my-custom-lightbox {
+  /* 左側 Swiper 區塊 */
+}
+.my-custom-lightbox .side-left {
+  flex: 1.4;
+  background: #ffffff;
+  position: relative;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+}
+.my-custom-lightbox .side-left .swiper {
+  width: 100%;
+  height: 100%;
+}
+.my-custom-lightbox .side-left .swiper .swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+.my-custom-lightbox .side-left .swiper .swiper-slide img {
+  /* 這裡最重要：限制圖片不要超過容器 */
+  max-width: 100%;
+  max-height: 70vh;
+  width: auto;
+  height: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.my-custom-lightbox .side-left {
+  /* --- 點點切換區樣式 --- */
+}
+.my-custom-lightbox .side-left .orange-pagination {
+  position: absolute;
+  bottom: 25px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.my-custom-lightbox .side-left .orange-pagination .pill {
+  width: 10px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+.my-custom-lightbox .side-left .orange-pagination .pill.active {
+  background: #ff9100;
+  width: 35px;
+}
+.my-custom-lightbox .side-left .orange-pagination .pill:hover {
+  background: #ff9100;
+  opacity: 0.7;
+}
+.my-custom-lightbox {
+  /* 右側文字資訊區 */
+}
+.my-custom-lightbox .side-right {
+  flex: 1;
+  padding: 60px 40px;
+  background: white;
+  overflow-y: auto;
+  position: relative;
+  padding-bottom: 80px;
+}
+.my-custom-lightbox .side-right .title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 5px;
+  color: #222;
+}
+.my-custom-lightbox .side-right .cate {
+  color: #ff9100;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 25px;
+}
+.my-custom-lightbox .side-right hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin-bottom: 25px;
+}
+.my-custom-lightbox .side-right .desc {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 30px;
+}
+.my-custom-lightbox .side-right .contribution-box {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed #eee;
+  background: transparent;
+  border-left: none;
+}
+.my-custom-lightbox .side-right .contribution-box small {
+  display: block;
+  color: #bbb;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.my-custom-lightbox .side-right .contribution-box p {
+  margin: 0;
+  color: #666;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.my-custom-lightbox .side-right .visit-site-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #000000; /* 你的橘色系 */
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+.my-custom-lightbox .side-right .visit-site-btn:hover {
+  background-color: #e66000;
+}
+.my-custom-lightbox .side-right .link-container {
+  position: absolute;
+  right: 40px; /* 與 side-right 的 padding 一致 */
+  bottom: 40px; /* 距離底部的高度 */
+}
+
+/* --- 燈箱 RWD 整合區塊 --- */
+@media (max-width: 992px) {
+  .my-custom-lightbox {
+    height: 90vh;
   }
-  .S_2 .filter-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-    transform: scale(0.7); /* 縮小為原本的 98% */
-    transform-origin: center; /* 設定縮放中心點 */
-    margin: 2rem 0;
-  }
-  .S_2 .filter-buttons .filter-btn {
-    border: 2px solid #ddd;
-    border-radius: 10rem;
-    background: transparent;
-    cursor: pointer;
-    font-weight: bold;
-    color: #888;
-    transition: all 0.3s;
-  }
-  .S_2 .filter-buttons .filter-btn.active, .S_2 .filter-buttons .filter-btn:hover {
-    border-color: orange;
-    color: orange;
-  }
-  .S_2 .portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    width: 100%;
-    justify-content: center;
-  }
-  .S_2 .portfolio-grid .portfolio-item {
-    display: flex;
+  .my-custom-lightbox .lightbox-main {
     flex-direction: column;
-    justify-content: center;
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    opacity: 1;
-    transform: scale(1) rotateX(0deg);
-    transform-origin: center;
-    max-width: 400px;
+    overflow-y: auto;
+  }
+  .my-custom-lightbox {
+    /* 左側圖片區：固定高度 */
+  }
+  .my-custom-lightbox .side-left {
+    flex: none;
     width: 100%;
-    margin: 0 auto;
+    height: 70%;
+    padding: 20px;
   }
-  .S_2 .portfolio-grid .portfolio-item.hide, .S_2 .portfolio-grid .portfolio-item.hidden {
-    display: none !important;
+  .my-custom-lightbox .side-left .swiper .swiper-slide img {
+    max-height: 380px;
   }
-  .S_2 .portfolio-grid .portfolio-item.hide {
-    border: 10px solid red;
+  .my-custom-lightbox {
+    /* 右側文字區：取消捲動（因為外層會捲動） */
   }
-  .S_2 .portfolio-grid .portfolio-item.animating {
-    opacity: 0;
-    transform: scale(0.5) rotateX(20deg) translateY(20px);
-    filter: blur(5px);
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card {
-    display: flex;
-    flex-direction: column;
-    padding: 5%;
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.2s ease;
-    background-color: #e7e7e7;
-    border: 2px solid #ffffff;
-    overflow: hidden;
-    cursor: pointer;
-  }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card img {
+  .my-custom-lightbox .side-right {
+    flex: none;
     width: 100%;
-    aspect-ratio: 1/1;
-    -o-object-fit: cover;
-       object-fit: cover;
-    -o-object-position: top;
-       object-position: top;
+    padding: 40px 30px;
+    overflow-y: visible;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1rem;
-    gap: 0.5rem;
+  .my-custom-lightbox .side-right .title {
+    font-size: 1.8rem;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info h3 {
-    color: #353535;
+}
+@media (max-width: 576px) {
+  .custom-modal-overlay {
+    padding: 10px;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info .tag_A {
-    color: #ff9100;
+  .my-custom-lightbox {
+    height: 95vh;
+    border-radius: 16px;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info .tag_B {
-    color: #5500ff;
+  .my-custom-lightbox .close-btn {
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info .tag_C {
-    color: #ff0090;
+  .my-custom-lightbox .side-left {
+    height: 320px;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card .work_info .tag_D {
-    color: #00a43f;
+  .my-custom-lightbox .side-left .swiper-slide {
+    padding: 15px;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card:hover {
-    transform: translateY(-8px);
+  .my-custom-lightbox .side-left .swiper-slide img {
+    max-height: 260px;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card:hover img {
-    transform: scale(1.05);
-    filter: brightness(1.1);
+  .my-custom-lightbox .side-left .orange-pagination {
+    bottom: 15px;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .work_card:hover h3 {
-    color: #898989;
+  .my-custom-lightbox .side-right {
+    padding: 25px 20px;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .item-inner {
-    overflow: hidden;
-    border-radius: 8px;
+  .my-custom-lightbox .side-right .title {
+    font-size: 1.5rem;
   }
-  .S_2 .portfolio-grid .portfolio-item .card-anchor .item-inner img {
-    width: 100%;
-    transition: all 0.3s ease;
+  .my-custom-lightbox .side-right .desc {
+    font-size: 0.95rem;
+  }
+  .my-custom-lightbox .side-right .contribution-box {
+    padding: 15px;
   }
 }
 @keyframes fadeIn {
@@ -5588,7 +5860,6 @@ svg {
   width: 100%;
   padding-left: 20%;
   overflow: visible;
-  /* 自定義左右按鈕樣式 */
 }
 .S_logo .brand-swiper .brand-card {
   display: flex;
@@ -5615,6 +5886,9 @@ svg {
   font-weight: bold;
   color: #353535;
   font-size: 1.2rem;
+}
+.S_logo .brand-swiper {
+  /* 自定義左右按鈕樣式 */
 }
 .S_logo .brand-swiper .swiper-button-prev,
 .S_logo .brand-swiper .swiper-button-next {
