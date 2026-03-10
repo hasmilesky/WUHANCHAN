@@ -79,7 +79,7 @@ img[src$='.svg'] {
   padding: 5% 10% 0 10%; //上左下右
   margin: 0;
   width: 100%;
-  background-image: url('../img/f_1.png');
+  background-image: url('../img/f_1.svg');
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #cacaca;
@@ -1075,12 +1075,21 @@ img[src$='.svg'] {
 }
 footer {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
   background-color: #434348;
   padding: 1.5rem;
-  gap: 1.5rem;
+
+  div {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    color: white;
+    gap: 1.5rem;
+  }
   p {
     margin: 0;
   }
