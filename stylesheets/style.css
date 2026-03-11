@@ -4992,7 +4992,7 @@ img[src$=".svg"] {
   padding: 5% 10% 0 10%;
   margin: 0;
   width: 100%;
-  background-image: url("img/f_1.webp");
+  background-image: url("../img/f_1.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #cacaca;
